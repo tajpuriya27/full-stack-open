@@ -1,3 +1,5 @@
-*
-!.gitignore
-!/part0
+# Exclude all sub-directories within main directory:
+*/
+
+# Negate the aboe exclude i.e. include the below sub-directories:
+!part0/
