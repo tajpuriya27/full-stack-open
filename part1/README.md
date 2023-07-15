@@ -47,3 +47,32 @@ const App = () => {
 - Components name must be **captilize** i.e. first letter must be uppercase.
 - `props` in component are same as arguments in function; used to send data.
 - Components - once created can be used multiple times.
+
+## 1.2: Course information, step2
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Refactor the Content component so that it only renders three Part components of which each renders the name and number of exercises of one part.
+
+  ```js
+  const Content = ... {
+  return (
+      <div>
+      <Part .../>
+      <Part .../>
+      <Part .../>
+      </div>
+  )
+  }
+  ```
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Passed the variable to Part componenet via Content component. The variable remains in main app component where Content component was actually called.
+
+**<u>Strengthen my understanding</u>**
+
+- Component can call components as function can call functions.
+- Variable data can be passed through component to inner component using props.
