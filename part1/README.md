@@ -4,7 +4,7 @@ Part-1 of the course contains exercise: 1.1 -1.6
 
 ## 1.1: Course information, step1
 
-<details><summary><u>Warnings</u> while doing exercise 1.1 :</summary>
+<details><summary><u><b>Warnings</b> - while doing exercise 1.1</u> :</summary>
 1. Don't try to program all the components concurrently, because that will almost certainly break down the wholevapp. Proceed in small steps.
 
 > "The only way to go fast, is to go well"
@@ -14,7 +14,7 @@ Part-1 of the course contains exercise: 1.1 -1.6
 
 </details>
 
-<details><summary><u>TO DO</u></summary>
+<details><summary><u><b>TO DO</b></u></summary>
 
 - Copy code from [fullstackopen - exe 1.1](https://fullstackopen.com/en/part1/introduction_to_react#exercises-1-1-1-2) and populate `App.js` and `index.js` file.
 
@@ -41,4 +41,9 @@ const App = () => {
 **<u>My Work summary</u>**
 
 - Components has been created within App.js file. No individual-external file was created for components.
-- Components name must be **captilize** i.e. first letter must be uppercase
+
+**<u>Strengthen my understanding</u>**
+
+- Components name must be **captilize** i.e. first letter must be uppercase.
+- `props` in component are same as arguments in function; used to send data.
+- Components - once created can be used multiple times.
