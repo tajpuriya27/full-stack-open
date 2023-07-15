@@ -205,4 +205,43 @@ Part-1 of the course contains exercise: 1.1 -1.6
 
 - While using Array.prototype.map method in React required unique key to each rendered components. I used index as unique key. [For more.](https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key)
 
----
+## 1.5 Course information, step5
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Change the course and its parts into a single JavaScript object(as code shown below). Fix everything that breaks.
+
+  ```js
+  const App = () => {
+    const course = {
+      name: "Half Stack application development",
+      parts: [
+        {
+          name: "Fundamentals of React",
+          exercises: 10,
+        },
+        {
+          name: "Using props to pass data",
+          exercises: 7,
+        },
+        {
+          name: "State of a component",
+          exercises: 14,
+        },
+      ],
+    };
+
+    return <div>...</div>;
+  };
+  ```
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Change the 'course' and 'parts' into single javascript object and pass the props accordingly from app component.
+- No changes are required in individual components.
+
+**<u>Strengthen my understanding</u>**
+
+- We have to render values of javascript objects but not directly objects. [For more](https://fullstackopen.com/en/part1/introduction_to_react#do-not-render-objects)
