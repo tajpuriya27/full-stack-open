@@ -150,3 +150,59 @@ Part-1 of the course contains exercise: 1.1 -1.6
 - While accessing values from objects; square bracket is used if the key has white space in it's name.
 - Use of `var` must be avoided as much as we can can.
 - `var` has function scope and `let` has block scope. [For More.](https://www.jstips.co/en/javascript/keyword-var-vs-let/)
+
+## 1.4: Course information, step4
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Place the objects into an array:
+
+  ```js
+  const App = () => {
+    const course = "Half Stack application development";
+    const parts = [
+      {
+        name: "Fundamentals of React",
+        exercises: 10,
+      },
+      {
+        name: "Using props to pass data",
+        exercises: 7,
+      },
+      {
+        name: "State of a component",
+        exercises: 14,
+      },
+    ];
+
+    return <div>...</div>;
+  };
+  ```
+
+- Do not pass different objects as separate props from the App component to the components Content and Total. Instead, pass them directly as an array:
+
+  ```js
+  const App = () => {
+    // const definitions
+
+    return (
+      <div>
+        <Header course={course} />
+        <Content parts={parts} />
+        <Total parts={parts} />
+      </div>
+    );
+  };
+  ```
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Used Array.Prototype.map and Array.Prototype.ForEach methods to gain the resulted output.
+
+**<u>Strengthen my understanding</u>**
+
+- While using Array.prototype.map method in React required unique key to each rendered components. I used index as unique key. [For more.](https://react.dev/learn/rendering-lists#keeping-list-items-in-order-with-key)
+
+---
