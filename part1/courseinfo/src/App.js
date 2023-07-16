@@ -9,17 +9,17 @@ const App = () => {
 
   const handleLeftClick = () => {
     setAll(allClicks.concat("L"));
-    console.log("left before", left);
+    // console.log("left before", left);
     const updateLeft = left + 1;
     setLeft(updateLeft);
-    console.log("left after", left);
+    // console.log("left after", left);
     setTotal(updateLeft + right);
   };
 
   const handleRightClick = () => {
     setAll(allClicks.concat("R"));
-    setRight(right + 1);
-
+    const updateRight = right + 1;
+    setRight(updateRight);
     setTotal(left + right);
   };
 

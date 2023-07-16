@@ -51,3 +51,21 @@ Here, we are dealing with second category of Part1 i.e. **Unicafe**
 **<u>Strengthen my understanding</u>**
 
 > While creating app using `npx create-react-app` git is automatically initialized. Never forget to remove the auto-initialize `.git` directory and `.gitignore` file.
+
+## 1.7: Unicafe, step2
+
+<details><summary><u><b>TO DO</b></u></summary>
+I have to expand my application so that it shows more statistics about the gathered feedback: the total number of collected feedback, the average score (good: 1, neutral: 0, bad: -1) and the percentage of positive feedback.
+
+![final output](assest/image.png)
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Completed the work. I have used 4 useState to run the application.
+- Created variable is not re-rendered by react. The solution is to use `useState`.
+
+**<u>Strengthen my understanding</u>**
+
+- Paragraph tag is block tag by itself.
