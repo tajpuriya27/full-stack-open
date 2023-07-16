@@ -1,37 +1,55 @@
-import { useState } from "react";
+// Creating components within App.js
+const Header = (props) => {
+  return <h1>{props.course}</h1>;
+};
+
+const Content = (props) => {
+  return props.parts.map((prop, index) => (
+    <Part part={prop.name} exercises={prop.exercises} key={index} />
+  ));
+};
+
+const Total = (props) => {
+  let totalExe = 0;
+  props.parts.forEach((element) => {
+    totalExe += element.exercises;
+  });
+  return <p>Number of exercises {totalExe}</p>;
+};
+
+const Part = (props) => {
+  return (
+    <p>
+      {props.part} {props.exercises}
+    </p>
+  );
+};
+// All the components(above) has to be capitalize their initials
 
 const App = () => {
-  const [left, setLeft] = useState(0);
-  const [right, setRight] = useState(0);
-  const [allClicks, setAll] = useState([]);
-
-  const [total, setTotal] = useState(0);
-
-  const handleLeftClick = () => {
-    setAll(allClicks.concat("L"));
-    // console.log("left before", left);
-    const updateLeft = left + 1;
-    setLeft(updateLeft);
-    // console.log("left after", left);
-    setTotal(updateLeft + right);
-  };
-
-  const handleRightClick = () => {
-    setAll(allClicks.concat("R"));
-    const updateRight = right + 1;
-    setRight(updateRight);
-    setTotal(left + right);
+  const course = {
+    name: "Half Stack application development",
+    parts: [
+      {
+        name: "Fundamentals of React",
+        exercises: 10,
+      },
+      {
+        name: "Using props to pass data",
+        exercises: 7,
+      },
+      {
+        name: "State of a component",
+        exercises: 14,
+      },
+    ],
   };
 
   return (
     <div>
-      {left}
-      <button onClick={handleLeftClick}>left</button>
-      <button onClick={handleRightClick}>right</button>
-      {right}
-      <p>{allClicks.join(" ")}</p>
-
-      <p>total {total}</p>
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   );
 };
