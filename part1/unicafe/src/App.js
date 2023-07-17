@@ -1,13 +1,21 @@
 import { useState } from "react";
 
 // Components:
-const Statistics = ({ averageFun, positiveFun }) => {
-  return (
-    <>
-      <p>average {averageFun()}</p>
-      <p>postive {positiveFun()} % </p>
-    </>
-  );
+const Statistics = ({ good, neutral, bad, all, averageFun, positiveFun }) => {
+  if (averageFun()) {
+    return (
+      <>
+        <p>good {good}</p>
+        <p>neutral {neutral}</p>
+        <p>bad {bad}</p>
+        <p>all {all}</p>
+        <p>average {averageFun()}</p>
+        <p>postive {positiveFun()} % </p>
+      </>
+    );
+  } else {
+    return "No feedback given";
+  }
 };
 
 const App = () => {
@@ -49,11 +57,14 @@ const App = () => {
       <button onClick={clickNeutal}>neutral</button>
       <button onClick={clickBad}>bad</button>
       <h3>statistics</h3>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <Statistics averageFun={averageFun} positiveFun={positiveFun} />
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+        all={all}
+        averageFun={averageFun}
+        positiveFun={positiveFun}
+      />
     </div>
   );
 };

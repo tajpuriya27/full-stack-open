@@ -108,3 +108,21 @@ Here, we are dealing with second category of Part1 i.e. **Unicafe**
 **<u>Strengthen my understanding</u>**
 
 - Destructing while passing `props` makes the code easier to understand.
+
+## 1.9: Unicafe, step4
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Change your application to display statistics only once feedback has been gathered.
+
+  ![final output](assest/image1.9.png)
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Used [conditional rendering](https://fullstackopen.com/en/part1/a_more_complex_state_debugging_react_apps#conditional-rendering).
+
+**<u>Strengthen my understanding</u>**
+
+- Initial useState value can be treated as variable. I have send them as a property of props
