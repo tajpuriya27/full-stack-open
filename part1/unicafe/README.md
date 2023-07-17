@@ -55,9 +55,10 @@ Here, we are dealing with second category of Part1 i.e. **Unicafe**
 ## 1.7: Unicafe, step2
 
 <details><summary><u><b>TO DO</b></u></summary>
-I have to expand my application so that it shows more statistics about the gathered feedback: the total number of collected feedback, the average score (good: 1, neutral: 0, bad: -1) and the percentage of positive feedback.
 
-![final output](assest/image.png)
+- I have to expand my application so that it shows more statistics about the gathered feedback: the total number of collected feedback, the average score (good: 1, neutral: 0, bad: -1) and the percentage of positive feedback.
+
+  ![final output](assest/image.png)
 
 </details>
 
@@ -69,3 +70,41 @@ I have to expand my application so that it shows more statistics about the gathe
 **<u>Strengthen my understanding</u>**
 
 - Paragraph tag is block tag by itself.
+
+## 1.8: Unicafe, step3
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Refactor your application so that displaying the statistics is extracted into its own Statistics component. The state of the application should remain in the App root component.
+
+  ```js
+  // a proper place to define a component
+  const Statistics = (props) => {
+    // ...
+  }
+
+  const App = () => {
+    const [good, setGood] = useState(0)
+    const [neutral, setNeutral] = useState(0)
+    const [bad, setBad] = useState(0)
+
+    // do not define a component within another component
+    const Statistics = (props) => {
+      // ...
+    }
+
+    return (
+      // ...
+    )
+  }
+  ```
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Made new component `Statistics` and passed the function reference only. Function is then called in Statistics component.
+
+**<u>Strengthen my understanding</u>**
+
+- Destructing while passing `props` makes the code easier to understand.
