@@ -126,3 +126,32 @@ Here, we are dealing with second category of Part1 i.e. **Unicafe**
 **<u>Strengthen my understanding</u>**
 
 - Initial useState value can be treated as variable. I have send them as a property of props
+
+## 1.10: Unicafe, step5
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Need to make new component and use the same component to render all statistics.
+  ```js
+  const Statistics = (props) => {
+    /// ...
+    return(
+      <div>
+        <StatisticLine text="good" value ={...} />
+        <StatisticLine text="neutral" value ={...} />
+        <StatisticLine text="bad" value ={...} />
+        // ...
+      </div>
+    )
+  }
+  ```
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Created new `statisticsLine` component.
+- Passed the function reference from App component to Statistics component. Then Passed the function call to StatisticsLine component.
+
+**<u>Strengthen my understanding</u>**  
+_Continued_ learning...

@@ -5,17 +5,25 @@ const Statistics = ({ good, neutral, bad, all, averageFun, positiveFun }) => {
   if (averageFun()) {
     return (
       <>
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <p>all {all}</p>
-        <p>average {averageFun()}</p>
-        <p>postive {positiveFun()} % </p>
+        <StatisticsLine text="good" value={good} />
+        <StatisticsLine text="neutral" value={neutral} />
+        <StatisticsLine text="bad" value={bad} />
+        <StatisticsLine text="all" value={all} />
+        <StatisticsLine text="average" value={averageFun()} />
+        <StatisticsLine text="positive" value={positiveFun()} />
       </>
     );
   } else {
     return "No feedback given";
   }
+};
+
+const StatisticsLine = (props) => {
+  return (
+    <p>
+      {props.text} {props.value}
+    </p>
+  );
 };
 
 const App = () => {
