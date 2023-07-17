@@ -71,4 +71,5 @@ _smooth_
 
 **<u>My Work summary</u>**
 
-**<u>Strengthen my understanding</u>**
+- `Math.max(...arr)` function will return the maximum number within the `arr` array.
+- `arr.indexOf(val)` method will return the index of val in the `arr` array.
