@@ -155,3 +155,22 @@ Here, we are dealing with second category of Part1 i.e. **Unicafe**
 
 **<u>Strengthen my understanding</u>**  
 _Continued_ learning...
+
+## 1.11: Unicafe, step6
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Need to add table element while rendering the statistics.
+
+</details>
+
+**<u>My Work summary</u>**
+
+- Added `table` tag and `tbody` tag within statistics component.
+
+**<u>Strengthen my understanding</u>**
+
+- I tried to rendered the `tr` tag directly into `table` tag. It give following warning:
+
+  `validateDOMNesting(...): <tr> cannot appear as a child of <table>.`  
+  The warning was handled by adding `tbody` tag within `table` tag.

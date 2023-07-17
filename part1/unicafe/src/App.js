@@ -2,16 +2,19 @@ import { useState } from "react";
 
 // Components:
 const Statistics = ({ good, neutral, bad, all, averageFun, positiveFun }) => {
+  // console.log(averageFun());
   if (averageFun()) {
     return (
-      <>
-        <StatisticsLine text="good" value={good} />
-        <StatisticsLine text="neutral" value={neutral} />
-        <StatisticsLine text="bad" value={bad} />
-        <StatisticsLine text="all" value={all} />
-        <StatisticsLine text="average" value={averageFun()} />
-        <StatisticsLine text="positive" value={positiveFun()} />
-      </>
+      <table>
+        <tbody>
+          <StatisticsLine text="good" value={good} />
+          <StatisticsLine text="neutral" value={neutral} />
+          <StatisticsLine text="bad" value={bad} />
+          <StatisticsLine text="all" value={all} />
+          <StatisticsLine text="average" value={averageFun()} />
+          <StatisticsLine text="positive" value={positiveFun()} />
+        </tbody>
+      </table>
     );
   } else {
     return "No feedback given";
@@ -20,9 +23,10 @@ const Statistics = ({ good, neutral, bad, all, averageFun, positiveFun }) => {
 
 const StatisticsLine = (props) => {
   return (
-    <p>
-      {props.text} {props.value}
-    </p>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   );
 };
 
@@ -50,11 +54,12 @@ const App = () => {
   };
 
   const averageFun = () => {
-    return all / 3;
+    return (all / 3).toFixed(2);
   };
   const positiveFun = () => {
     if (all) {
-      return (good / all) * 100;
+      let tempVar = (good / all) * 100;
+      return `${tempVar.toFixed(2)}%`;
     }
     return all;
   };
