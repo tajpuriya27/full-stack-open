@@ -47,3 +47,28 @@ _smooth_
 
 - If random number is beign generated to trasversal randomly within an array. `Math.floor(Math.random()* Array.prototype.length)` must be used.
 - Using `Math.round()` function may try to access the `Array[Array.prototype.length]` which will create problem.
+
+## 1.13: Unicafe, step2
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Final output of the application must be:
+![expected output](assest/image1.13.png)
+</details>
+
+**<u>My Work summary</u>**
+
+- Used another useState and copy the 'points' array before updated it with the help of spread operator.
+
+## 1.14: Unicafe, step3
+
+<details><summary><u><b>TO DO</b></u></summary>
+
+- Expected Output:
+  ![expected output](assest/image1.14.png)
+
+</details>
+
+**<u>My Work summary</u>**
+
+**<u>Strengthen my understanding</u>**
