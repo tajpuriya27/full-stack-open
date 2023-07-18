@@ -2,8 +2,7 @@ import { useState } from "react";
 
 // Components:
 const Statistics = ({ good, neutral, bad, all, averageFun, positiveFun }) => {
-  // console.log(averageFun());
-  if (averageFun()) {
+  if (Number(averageFun())) {
     return (
       <table>
         <tbody>
