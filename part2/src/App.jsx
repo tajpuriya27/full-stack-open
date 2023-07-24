@@ -9,12 +9,26 @@ const Content = (props) => {
   return parts.map((element) => <Part key={element.id} part={element} />);
 };
 
+const Total = (props) => {
+  const { parts } = props.course;
+  let total = 0;
+  parts.forEach((element) => {
+    total += element.exercises;
+  });
+  return (
+    <p>
+      <b>total of {total} exercises</b>
+    </p>
+  );
+};
+
 const Course = (props) => {
   const { course } = props;
   return (
     <>
       <Header course={course} />
       <Content course={course} />
+      <Total course={course} />
     </>
   );
 };
