@@ -35,8 +35,10 @@ const App = () => {
   };
 
   const personsToShow = searchTerm
-    ? persons.filter((person) =>
-        person.name.toLowerCase().includes(searchTerm.toLowerCase())
+    ? persons.filter(
+        (person) =>
+          person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          person.number.includes(searchTerm)
       )
     : persons;
 
