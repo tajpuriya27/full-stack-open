@@ -23,16 +23,15 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isDublicate = persons.filter((person) => person.name === newName);
-    isDublicate.length
-      ? alert(`${newName} is already added to phonebook`)
-      : setPersons(
-          persons.concat({
-            name: newName,
-            number: newPhone,
-            id: persons.length + 1,
-          })
-        );
+    const personToPost = {
+      name: newName,
+      number: newPhone,
+      id: persons.length + 1,
+    };
+    axios
+      .post("http://localhost:3001/persons", personToPost)
+      .then((res) => setPersons(persons.concat(res.data)));
+
     setNewName("");
     setNewPhone("");
   };
