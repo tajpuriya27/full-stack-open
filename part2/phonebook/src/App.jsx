@@ -25,17 +25,28 @@ const App = () => {
     const personToAdd = {
       name: newName,
       number: newPhone,
-      id: persons.length + 1,
     };
     const isDublicate = persons.filter((person) => person.name === newName);
-    isDublicate.length
-      ? alert(`${newName} is already added to phonebook`)
-      : personService
-          .addPerson(personToAdd)
-          .then((res) => setPersons(persons.concat(res)))
-          .catch((err) => {
-            alert(`Intermediate ids are missing. ${err.message}`);
-          });
+    if (isDublicate.length) {
+      const personToUpdate = persons.find((n) => n.name === personToAdd.name);
+      if (window.confirm("update??")) {
+        personService
+          .updatePerson(personToUpdate.id, personToAdd)
+          .then(() =>
+            personService.getAll().then((res) => {
+              setPersons(res);
+            })
+          )
+          .catch((err) => console.log(err));
+      }
+    } else {
+      personService
+        .addPerson(personToAdd)
+        .then((res) => setPersons(persons.concat(res)))
+        .catch((err) => {
+          alert(`Intermediate ids are missing. ${err.message}`);
+        });
+    }
 
     setNewName("");
     setNewPhone("");

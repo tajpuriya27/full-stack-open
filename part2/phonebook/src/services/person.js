@@ -8,4 +8,8 @@ const getAll = () => {
 const addPerson = (personToPost) => {
   return axios.post(baseUrl, personToPost).then((res) => res.data);
 };
-export default { getAll, addPerson };
+
+const updatePerson = (id, personToUpdate) => {
+  return axios.put(`${baseUrl}/${id}`, personToUpdate).then((res) => res.data);
+};
+export default { getAll, addPerson, updatePerson };
