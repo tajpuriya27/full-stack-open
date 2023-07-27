@@ -29,7 +29,7 @@ const App = () => {
     const isDublicate = persons.filter((person) => person.name === newName);
     if (isDublicate.length) {
       const personToUpdate = persons.find((n) => n.name === personToAdd.name);
-      if (window.confirm("update??")) {
+      if (window.confirm(`Do you want to update ${personToAdd.name}?`)) {
         personService
           .updatePerson(personToUpdate.id, personToAdd)
           .then(() =>

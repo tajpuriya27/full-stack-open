@@ -5,7 +5,7 @@ const Persons = (props) => {
   const { personsToShow, setPersons } = props;
 
   const delPerson = ({ id, name }) => {
-    if (window.confirm(`Do you want to ${name}`)) {
+    if (window.confirm(`Do you want to delete ${name}?`)) {
       axios.delete(`http://localhost:3001/persons/${id}`).then(() =>
         personService.getAll().then((res) => {
           setPersons(res);
