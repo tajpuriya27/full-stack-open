@@ -27,9 +27,15 @@ const App = () => {
       number: newPhone,
       id: persons.length + 1,
     };
-    personService
-      .addPerson(personToAdd)
-      .then((res) => setPersons(persons.concat(res)));
+    const isDublicate = persons.filter((person) => person.name === newName);
+    isDublicate.length
+      ? alert(`${newName} is already added to phonebook`)
+      : personService
+          .addPerson(personToAdd)
+          .then((res) => setPersons(persons.concat(res)))
+          .catch((err) => {
+            alert(`Intermediate ids are missing. ${err.message}`);
+          });
 
     setNewName("");
     setNewPhone("");
@@ -57,7 +63,7 @@ const App = () => {
         handlePhoneChange={handlePhoneChange}
       />
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} setPersons={setPersons} />
     </div>
   );
 };
