@@ -12,4 +12,9 @@ const addPerson = (personToPost) => {
 const updatePerson = (id, personToUpdate) => {
   return axios.put(`${baseUrl}/${id}`, personToUpdate).then((res) => res.data);
 };
-export default { getAll, addPerson, updatePerson };
+
+const delPerson = (id) => {
+  return axios.delete(`${baseUrl}/${id}`).then((res) => res.data);
+};
+
+export default { getAll, addPerson, updatePerson, delPerson };
