@@ -23,12 +23,12 @@ const App = () => {
   };
 
   const countryToShow = usrInput
-    ? allData.filter((datum) =>
-        datum.name.common
+    ? allData.filter((country) =>
+        country.name.common
           .toLowerCase()
           .includes(
             usrInput.toLowerCase() ||
-              datum.common.official
+              country.common.official
                 .toLowerCase()
                 .includes(usrInput.toLowerCase())
           )
@@ -42,8 +42,11 @@ const App = () => {
     if (countryToShow.length < 10) {
       return (
         <ul>
-          {countryToShow.map((datum) => (
-            <li key={datum.cca2}>{datum.name.common}</li>
+          {countryToShow.map((country) => (
+            <li key={country.cca2}>
+              {country.name.common}{" "}
+              <button onClick={() => funToShow(country)}>show</button>
+            </li>
           ))}
         </ul>
       );
@@ -70,6 +73,11 @@ const App = () => {
         />
       </>
     );
+  };
+
+  const funToShow = (country) => {
+    console.log(country);
+    return <ShowDetails country={country} />;
   };
 
   if (!allData) {
