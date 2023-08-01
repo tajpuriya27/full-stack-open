@@ -23,6 +23,10 @@ persons = [
   },
 ];
 
+const presentDate = new Date();
+console.log(presentDate);
+const personCount = persons.length;
+
 app.get("/", (req, res) => {
   res.send(
     "<h1>Exe 3.1 completed.</h1> <a href='http://localhost:3001/api/persons'>Click here for API</a>"
@@ -31,6 +35,13 @@ app.get("/", (req, res) => {
 
 app.get("/api/persons", (req, res) => {
   res.send(persons);
+});
+
+// info route
+app.get("/info", (req, res) => {
+  res.send(
+    `<p>Phonebook has info for ${personCount} people, <br/> ${presentDate}</p>`
+  );
 });
 
 const PORT = 3001;
