@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
+
 persons = [
   {
     id: 1,
@@ -56,6 +58,26 @@ app.delete("/api/persons/:id", (req, res) => {
   } else {
     res.status(404).end();
   }
+});
+
+const generateId = () => Math.round(Math.random() * 1000);
+const isDublicate = (checkName) =>
+  persons.map((n) => n.name).includes(checkName);
+
+app.post("/api/persons", (req, res) => {
+  const sentData = req.body;
+  if (!sentData.name || !sentData.number) {
+    return res.status(400).json({ error: "content missing" });
+  } else if (isDublicate(sentData.name)) {
+    return res.status(400).json({ error: "name already exist" });
+  }
+  const person = {
+    id: generateId(),
+    name: sentData.name,
+    number: sentData.number,
+  };
+  persons = persons.concat(person);
+  res.json(person);
 });
 
 // info route
