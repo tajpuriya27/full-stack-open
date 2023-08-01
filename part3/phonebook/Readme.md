@@ -9,3 +9,7 @@
 ### Exe 3.2 Completed.
 
 - Added info route.
+
+### Exe 3.3 Completed
+
+- Added single person access via get method
