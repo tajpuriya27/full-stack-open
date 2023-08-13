@@ -3,7 +3,17 @@ const app = express();
 const morgan = require("morgan");
 
 app.use(express.json());
-app.use(morgan("combined"));
+// app.use(morgan("combined"));
+
+morgan.token("post", function (req, res) {
+  return req.method === "POST" ? JSON.stringify(req.body) : "";
+});
+
+morgan.format(
+  "postFormat",
+  ":method :url :status :res[content-length] - :response-time ms :post"
+);
+app.use(morgan("postFormat"));
 
 persons = [
   {
