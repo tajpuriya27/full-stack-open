@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 const App = () => {
   const [allData, setAllData] = useState(null);
   const [usrInput, setUsrInput] = useState("");
+  const [nationToShow, setNationToShow] = useState("");
 
   useEffect(() => {
     axios
@@ -46,6 +47,9 @@ const App = () => {
             <li key={country.cca2}>
               {country.name.common}{" "}
               <button onClick={() => funToShow(country)}>show</button>
+              {nationToShow === country ? (
+                <ShowDetails country={country} />
+              ) : null}
             </li>
           ))}
         </ul>
@@ -76,8 +80,8 @@ const App = () => {
   };
 
   const funToShow = (country) => {
-    console.log(country);
-    return <ShowDetails country={country} />;
+    setNationToShow("");
+    setNationToShow(country);
   };
 
   if (!allData) {
