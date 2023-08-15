@@ -4,6 +4,7 @@ const morgan = require("morgan");
 
 app.use(express.json());
 // app.use(morgan("combined"));
+app.use(express.static("dist"));
 
 morgan.token("post", function (req, res) {
   return req.method === "POST" ? JSON.stringify(req.body) : "";

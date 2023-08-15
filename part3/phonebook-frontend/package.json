@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "build:ui": "rm -rf ../phonebook/dist && npm run build && mv src/dist ../phonebook"
+    "build:ui": "rm -rf ../phonebook/dist && rm -rf src/dist && npm run build && mv src/dist ../phonebook"
   },
   "keywords": [],
   "author": "",
