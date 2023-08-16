@@ -34,9 +34,8 @@ app.get("/api/persons/:id", (request, response) => {
     .then((person) => {
       person ? response.json(person) : response.status(404).send("wrong id");
     })
-    .catch((err) => {
-      console.log("error");
-      response.status(404).send(err);
+    .catch((error) => {
+      response.status(404).send({ error: "malformatted id" });
     });
 });
 
@@ -48,8 +47,8 @@ app.delete("/api/persons/:id", (request, response) => {
         ? response.status(204).end()
         : response.status(404).send("already deleted!!");
     })
-    .catch(() => {
-      response.status(404).end();
+    .catch((error) => {
+      response.status(404).send({ error: "malformated id" });
     });
 });
 
@@ -71,6 +70,18 @@ app.post("/api/persons", (request, response) => {
   person.save().then((savedPerson) => {
     response.json(savedPerson);
   });
+});
+
+app.put("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  const body = request.body;
+  Person.findByIdAndUpdate(id, body)
+    .then((res) => {
+      response.json(res);
+    })
+    .catch((error) => {
+      response.status(404).send({ error: "malformated id" });
+    });
 });
 
 const PORT = process.env.PORT || 3001;

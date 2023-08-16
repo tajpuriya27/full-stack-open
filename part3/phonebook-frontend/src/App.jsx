@@ -44,7 +44,10 @@ const App = () => {
             personService.getAll().then((res) => {
               setPersons(res);
             });
-            setNotification(`"${res.name}" get upadated!`);
+            setNotification(`"${res.name}" gets updated!`);
+            setTimeout(() => {
+              setNotification(null);
+            }, 2000);
           })
           .catch((err) => {
             setError(`Update Error: ${err.message}`);
@@ -75,7 +78,7 @@ const App = () => {
     ? persons.filter(
         (person) =>
           person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          person.number.includes(searchTerm)
+          person.number.toString().includes(searchTerm)
       )
     : persons;
 
