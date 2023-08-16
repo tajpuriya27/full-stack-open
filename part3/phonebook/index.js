@@ -37,6 +37,14 @@ app.get("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
+app.get("/info", async (request, response) => {
+  const docCount = await Person.countDocuments({});
+  const currentTime = new Date(Date.now()).toString();
+  response.send(
+    `There are ${docCount} persons in database.<br/> ${currentTime}`
+  );
+});
+
 app.delete("/api/persons/:id", (request, response, next) => {
   const id = request.params.id;
   Person.findByIdAndDelete(id)
