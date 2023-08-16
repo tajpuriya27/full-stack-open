@@ -5,6 +5,7 @@
 node_modules/
 z-PersonalNote.*
 testing.txt
+.env
 
 
 # Negate the above exclude i.e. include the below sub-directories:
