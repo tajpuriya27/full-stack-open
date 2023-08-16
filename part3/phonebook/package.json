@@ -11,6 +11,7 @@
   "author": "Sunil Tajpuriya",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^7.4.3",
     "morgan": "^1.10.0"

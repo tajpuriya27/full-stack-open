@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+require("dotenv").config;
+const Person = require("./model/person");
 
 app.use(express.json());
 // app.use(morgan("combined"));
@@ -16,89 +18,59 @@ morgan.format(
 );
 app.use(morgan("postFormat"));
 
-persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
-
-const presentDate = new Date();
-console.log(presentDate);
-const personCount = persons.length;
-
 app.get("/", (req, res) => {
-  res.send(
-    "<h1>Exe 3.1 completed.</h1> <a href='http://localhost:3001/api/persons'>Click here for API</a>"
-  );
+  res.send("Static Files - failed rendered");
 });
 
-app.get("/api/persons", (req, res) => {
-  res.send(persons);
+app.get("/api/persons", (request, response) => {
+  Person.find({}).then((result) => {
+    response.json(result);
+  });
 });
 
-app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
-  if (person) {
-    res.send(person);
-  } else {
-    res.status(404).end();
+app.get("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  Person.findById(id)
+    .then((person) => {
+      person ? response.json(person) : response.status(404).send("wrong id");
+    })
+    .catch((err) => {
+      console.log("error");
+      response.status(404).send(err);
+    });
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  Person.findByIdAndDelete(id)
+    .then((res) => {
+      res
+        ? response.status(204).end()
+        : response.status(404).send("already deleted!!");
+    })
+    .catch(() => {
+      response.status(404).end();
+    });
+});
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+  console.log(body);
+
+  if (!body.name) {
+    return response.status(400).json({
+      error: "name is missing",
+    });
   }
-});
 
-app.delete("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
-  if (person) {
-    persons = persons.filter((person) => person.id !== id);
-    res.status(204).end();
-  } else {
-    res.status(404).end();
-  }
-});
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
-const generateId = () => Math.round(Math.random() * 1000);
-const isDublicate = (checkName) =>
-  persons.map((n) => n.name).includes(checkName);
-
-app.post("/api/persons", (req, res) => {
-  const sentData = req.body;
-  if (!sentData.name || !sentData.number) {
-    return res.status(400).json({ error: "content missing" });
-  } else if (isDublicate(sentData.name)) {
-    return res.status(400).json({ error: "name already exist" });
-  }
-  const person = {
-    id: generateId(),
-    name: sentData.name,
-    number: sentData.number,
-  };
-  persons = persons.concat(person);
-  res.json(person);
-});
-
-// info route
-app.get("/info", (req, res) => {
-  res.send(
-    `<p>Phonebook has info for ${personCount} people, <br/> ${presentDate}</p>`
-  );
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
 });
 
 const PORT = process.env.PORT || 3001;
