@@ -65,8 +65,8 @@ const App = () => {
           setTimeout(() => setNotification(null), 2000);
         })
         .catch((err) => {
-          setNotification(`${err.name} Added`);
-          setTimeout(() => setNotification(null), 2000);
+          setError(`Validation Error: ${err.response.data.error}`);
+          setTimeout(() => setError(null), 2000);
         });
     }
 
