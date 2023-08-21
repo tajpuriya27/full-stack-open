@@ -1,5 +1,6 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
+const middleware = require("../utils/middleware");
 
 blogsRouter.get("/", (req, res) => {
   Blog.find({}).then((blogs) => {
@@ -7,12 +8,14 @@ blogsRouter.get("/", (req, res) => {
   });
 });
 
-blogsRouter.post("/", (req, res) => {
-  console.log(req.body);
+blogsRouter.post("/", (req, res, next) => {
   const blog = new Blog(req.body);
-  blog.save().then((result) => {
-    res.status(201).json(result);
-  });
+  blog
+    .save()
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((error) => next(error));
 });
 
 module.exports = blogsRouter;
