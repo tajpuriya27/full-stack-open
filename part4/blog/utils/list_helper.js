@@ -51,9 +51,30 @@ const mostBlogs = (blogs) => {
   return { author, blogs: authorBlogs };
 };
 
+const mostLikes = (blogs) => {
+  let tempObj = {};
+  blogs.forEach((blog) => {
+    if (blog.author in tempObj) {
+      tempObj[blog.author] += blog.likes;
+    } else {
+      tempObj[blog.author] = blog.likes;
+    }
+  });
+  let authorLike = 0,
+    author = "";
+  for (const [key, value] of Object.entries(tempObj)) {
+    if (value > authorLike) {
+      authorLike = value;
+      author = key;
+    }
+  }
+  return { author, likes: authorLike };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favouriteBlog,
   mostBlogs,
+  mostLikes,
 };
