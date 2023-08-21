@@ -1,5 +1,5 @@
 POST http://localhost:3003/api/blogs HTTP/1.1
-Content-Type: "application/json"
+Content-Type: application/json
 
 {
     "title": "My first blog",
@@ -10,10 +10,11 @@ Content-Type: "application/json"
 
 ###
 POST http://localhost:3003/api/blogs
-Content-Type: "application/json"
+Content-Type: application/json
 
 {
     "title": "My first blog from restful api"
 }
+
 ###
 GET http://127.0.0.1:3003/api/blogs HTTP/1.1
