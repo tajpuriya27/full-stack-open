@@ -64,3 +64,13 @@ describe("Total Likes", () => {
     expect(listHelper.totalLikes(blogs)).toBe(36);
   });
 });
+
+describe("Favourite blog", () => {
+  test("find out the blog with highest likes", () => {
+    expect(listHelper.favouriteBlog(blogs)).toEqual({
+      title: "Canonical string reduction",
+      author: "Edsger W. Dijkstra",
+      likes: 12,
+    });
+  });
+});

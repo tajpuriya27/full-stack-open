@@ -14,7 +14,25 @@ const totalLikes = (blogs) => {
 
   return likeCount;
 };
+
+const favouriteBlog = (blogs) => {
+  let highestLike = 0;
+  let blogWithHighestLike;
+  blogs.forEach((blog) => {
+    if (blog.likes > highestLike) {
+      highestLike = blog.likes;
+      blogWithHighestLike = blog;
+    }
+  });
+  return {
+    title: blogWithHighestLike.title,
+    author: blogWithHighestLike.author,
+    likes: blogWithHighestLike.likes,
+  };
+};
+
 module.exports = {
   dummy,
   totalLikes,
+  favouriteBlog,
 };
