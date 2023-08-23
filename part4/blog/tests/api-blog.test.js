@@ -68,6 +68,23 @@ describe("adding a new blog", () => {
     expect(contents).toHaveLength(helper.initialBlogs.length + 1);
     expect(contents).toContain("Added by test-case");
   });
+
+  test("if like property is missing, intialized it with zero", async () => {
+    const newblog = {
+      title: "Missing likes property",
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+    };
+
+    const response = await api
+      .post("/api/blogs")
+      .send(newblog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    expect(response.body.likes).toBeDefined();
+    expect(response.body.likes).toBe(0);
+  });
 });
 
 afterAll(async () => {
