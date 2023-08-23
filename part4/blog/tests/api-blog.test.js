@@ -112,6 +112,17 @@ describe("adding a new blog", () => {
   });
 });
 
+describe("deleting blogs", () => {
+  test("delete specific blog with their id", async () => {
+    const blogArr = await helper.blogsInDb();
+    await api.delete(`/api/blogs/${blogArr[0].id}`).expect(204);
+
+    const blogsAtEnd = await helper.blogsInDb();
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+  });
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
