@@ -123,6 +123,26 @@ describe("deleting blogs", () => {
   });
 });
 
+describe("update blogs", () => {
+  test("update specific blog with their id", async () => {
+    const blogArr = await helper.blogsInDb();
+    const blogToUpdate = blogArr[0];
+    const updatedBlog = {
+      title: "Updated from test case",
+      author: "Api-testing",
+    };
+    const response = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedBlog)
+      .expect(200);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(response.body.title).toBe("Updated from test case");
+    expect(response.body.author).toBe("Api-testing");
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+  });
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
