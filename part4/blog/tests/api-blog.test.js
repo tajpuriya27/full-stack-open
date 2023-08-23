@@ -46,6 +46,30 @@ describe("unique identifier of blog", () => {
   });
 });
 
+describe("adding a new blog", () => {
+  test("valid one can be added", async () => {
+    const newblog = {
+      title: "Added by test-case",
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+    };
+
+    await api
+      .post("/api/blogs")
+      .send(newblog)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+
+    const contents = blogsAtEnd.map((r) => r.title);
+
+    expect(contents).toHaveLength(helper.initialBlogs.length + 1);
+    expect(contents).toContain("Added by test-case");
+  });
+});
+
 afterAll(async () => {
   await mongoose.connection.close();
 });
