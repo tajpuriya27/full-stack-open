@@ -85,6 +85,34 @@ describe("adding a new blog", () => {
     expect(response.body.likes).toBeDefined();
     expect(response.body.likes).toBe(0);
   });
+
+  test("blog without title is is discarded", async () => {
+    const newblog = {
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+    };
+
+    await api.post("/api/blogs").send(newblog).expect(400);
+
+    const blogsAtEnd = await helper.blogsInDb();
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+  });
+
+  test("blog without url is is discarded", async () => {
+    const newblog = {
+      title: "Blog withou url must be discarded",
+      author: "Sunil Tajpuriya",
+      likes: 7,
+    };
+
+    await api.post("/api/blogs").send(newblog).expect(400);
+
+    const blogsAtEnd = await helper.blogsInDb();
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+  });
 });
 
 afterAll(async () => {
