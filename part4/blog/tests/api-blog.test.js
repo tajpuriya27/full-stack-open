@@ -8,14 +8,11 @@ const blog = require("../models/blog");
 
 beforeEach(async () => {
   await Blog.deleteMany({});
-
-  const blogObjects = helper.initialBlogs.map((blog) => new Blog(blog));
-  const promiseArray = blogObjects.map((blog) => blog.save());
-  await Promise.all(promiseArray);
+  await Blog.insertMany(helper.initialBlogs);
 });
 
 describe("get method returns", () => {
-  test("blogs as json", async () => {
+  test("status code 200 and blogs as json", async () => {
     await api
       .get("/api/blogs")
       .expect(200)
@@ -47,7 +44,7 @@ describe("unique identifier of blog", () => {
 });
 
 describe("adding a new blog", () => {
-  test("valid one can be added", async () => {
+  test("valid blog can be added sucessfully with status code 201", async () => {
     const newblog = {
       title: "Added by test-case",
       author: "Sunil Tajpuriya",
@@ -69,7 +66,7 @@ describe("adding a new blog", () => {
     expect(contents).toContain("Added by test-case");
   });
 
-  test("if like property is missing, intialized it with zero", async () => {
+  test("if like property is missing, intialized it with zero and returns status code 201.", async () => {
     const newblog = {
       title: "Missing likes property",
       author: "Sunil Tajpuriya",
