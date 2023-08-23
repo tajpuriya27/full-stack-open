@@ -33,9 +33,9 @@ blogsRouter.delete("/:id", async (req, res, next) => {
 blogsRouter.put("/:id", async (req, res, next) => {
   const blog = {
     title: req.body.title,
-    author: req.body.author || "",
+    author: req.body.author,
     url: req.body.url,
-    likes: req.body.likes || 0,
+    likes: req.body.likes,
   };
 
   try {
