@@ -13,9 +13,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "author": "This is my first blog.. lorem ipsum text...",
+    "title": "Blog withou like property",
+    "author": "root-user",
     "url":"https://localhost:3003/api/blogs/1",
-    "likes": 99
+    "userId": "64e90dd09724b2bb04f96ee2"
 }
 
 ###

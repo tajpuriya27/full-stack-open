@@ -1,18 +1,27 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 blogsRouter.get("/", async (req, res) => {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
   res.json(blogs);
 });
 
 blogsRouter.post("/", async (req, res, next) => {
-  if (!req.body.likes) {
-    req.body.likes = 0;
-  }
-  const blog = new Blog(req.body);
+  const user = await User.findById(req.body.userId);
+
+  const blog = new Blog({
+    title: req.body.title,
+    author: req.body.author,
+    url: req.body.author,
+    likes: req.body.likes || 0,
+    user: user.id,
+  });
+
   try {
     const result = await blog.save();
+    user.blogs = user.blogs.concat(result._id);
+    await user.save();
     res.status(201).json(result);
   } catch (error) {
     next(error);
@@ -47,14 +56,14 @@ blogsRouter.put("/:id", async (req, res, next) => {
 });
 
 // testing purpose only:
-/*
-blogsRouter.get("/all", async (req, res, next) => {
-  try {
-    await Blog.deleteMany({});
-    res.status(204).send("deleted all");
-  } catch (error) {
-    next(error);
-  }
-});
-*/
+
+// blogsRouter.get("/all", async (req, res, next) => {
+//   try {
+//     await Blog.deleteMany({});
+//     res.status(204).send("deleted all");
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 module.exports = blogsRouter;
