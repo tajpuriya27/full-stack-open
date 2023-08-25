@@ -1,7 +1,5 @@
 const blogsRouter = require("express").Router();
-const { response } = require("../app");
 const Blog = require("../models/blog");
-const middleware = require("../utils/middleware");
 
 blogsRouter.get("/", async (req, res) => {
   const blogs = await Blog.find({});
