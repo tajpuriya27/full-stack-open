@@ -9,7 +9,9 @@ usersRouter.get("/", async (req, res) => {
 
 usersRouter.post("/", async (req, res, next) => {
   const { name, username, password } = req.body;
-
+  if (password.length < 4) {
+    return res.status(400).send("Password cannot be less then 4 characters");
+  }
   const passwordHash = await bcrypt.hash(password, 10);
 
   const user = new User({
