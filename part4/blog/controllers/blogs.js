@@ -9,22 +9,22 @@ blogsRouter.get("/", async (req, res) => {
 });
 
 blogsRouter.post("/", async (req, res, next) => {
-  const decodedToken = jwt.verify(req.token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return res.status(401).json({ error: "token invalid" });
-  }
-
-  const user = await User.findById(decodedToken.id);
-
-  const blog = new Blog({
-    title: req.body.title,
-    author: req.body.author,
-    url: req.body.author,
-    likes: req.body.likes || 0,
-    user: user.id,
-  });
-
   try {
+    const decodedToken = jwt.verify(req.token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return res.status(401).json({ error: "token invalid" });
+    }
+
+    const user = await User.findById(decodedToken.id);
+
+    const blog = new Blog({
+      title: req.body.title,
+      author: req.body.author,
+      url: req.body.author,
+      likes: req.body.likes || 0,
+      user: user.id,
+    });
+
     const result = await blog.save();
     user.blogs = user.blogs.concat(result._id);
     await user.save();
