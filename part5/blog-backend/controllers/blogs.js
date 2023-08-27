@@ -15,7 +15,7 @@ blogsRouter.post("/", tokenExtractor, userExtractor, async (req, res, next) => {
     const blog = new Blog({
       title: req.body.title,
       author: req.body.author,
-      url: req.body.author,
+      url: req.body.url,
       likes: req.body.likes || 0,
       user: user.id,
     });
