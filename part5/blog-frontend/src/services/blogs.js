@@ -8,8 +8,13 @@ const getAll = async () => {
   return response.data;
 };
 
+const create = async (title) => {
+  const response = await axios.post(baseUrl, title);
+  return response.data;
+};
+
 const setToken = (newToken) => {
   token = `Bearer ${newToken}`;
 };
 
-export default { getAll, setToken };
+export default { getAll, create, setToken };

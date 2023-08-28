@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import userService from "./services/user";
 import "./main.css";
 
 const App = () => {
@@ -13,12 +14,13 @@ const App = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    console.log("1 useEffect - executed");
     async function fetchData() {
-      const blogs = await blogService.getAll();
-      setBlogs(blogs);
+      const userBlogs = await userService.getUserBlogs(user);
+      setBlogs(userBlogs.blogs);
     }
-    fetchData();
-  }, []);
+    user ? fetchData() : null;
+  }, [user]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -40,7 +42,7 @@ const App = () => {
 
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
 
-      // blogService.setToken(user.token);
+      blogService.setToken(user.token);
       setUser(user);
       setUsername("");
       setPassword("");
@@ -54,6 +56,8 @@ const App = () => {
 
   const addBlog = (e) => {
     e.preventDefault();
+    const reponse = blogService.create(newBlog);
+    setBlogs(blogs.concat(reponse));
     try {
     } catch (error) {
       setErrMessage(err.response.data.error);
@@ -115,12 +119,11 @@ const App = () => {
         <div>
           <p>{user.name} logged in</p>
           {blogForm()}
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
         </div>
       )}
-
-      {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
-      ))}
     </div>
   );
 };
