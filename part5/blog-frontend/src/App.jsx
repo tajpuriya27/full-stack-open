@@ -7,7 +7,7 @@ import "./main.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [newBlog, setNewBlog] = useState("");
+  const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
   const [errMessage, setErrMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -69,7 +69,10 @@ const App = () => {
   };
 
   const handleChange = (e) => {
-    setNewBlog(e.target.value);
+    setNewBlog({
+      ...newBlog,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const Notification = ({ message }) => {
@@ -105,8 +108,31 @@ const App = () => {
 
   const blogForm = () => (
     <form onSubmit={addBlog}>
-      <input value={newBlog} onChange={handleChange} />
-      <button type="submit">save</button>
+      <label htmlFor="">Title: </label>
+      <input
+        value={newBlog.title}
+        name="title"
+        onChange={handleChange}
+        placeholder="title..."
+      />
+      <br />
+      <label htmlFor="">Author: </label>
+      <input
+        value={newBlog.author}
+        name="author"
+        onChange={handleChange}
+        placeholder="Author..."
+      />
+      <br />
+      <label htmlFor="">URL: </label>
+      <input
+        value={newBlog.url}
+        name="url"
+        onChange={handleChange}
+        placeholder="url..."
+      />
+      <br />
+      <button type="submit">Create</button>
     </form>
   );
 
