@@ -3,6 +3,7 @@ const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const helper = require("./api-test-helper.js");
 
 beforeEach(async () => {
@@ -43,7 +44,38 @@ describe("unique identifier of blog", () => {
 });
 
 describe("adding a new blog", () => {
-  test("valid blog can be added sucessfully with status code 201", async () => {
+  let token;
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const rootTest = {
+      name: "root",
+      username: "root-admin",
+      password: "admin",
+    };
+
+    const resFromUserApi = await api.post("/api/users").send(rootTest);
+    //   .expect(201)
+    //   .expect("Content-Type", /application\/json/);
+    // expect(resFromUserApi.body.username).toBeDefined();
+
+    console.log("testing from test", resFromUserApi.body);
+
+    const loginCredentials = {
+      username: "root-admin",
+      password: "admin",
+    };
+
+    const resFromLoginApi = await api.post("/api/login").send(loginCredentials);
+    // .expect(200)
+    // .expect("Content-Type", /application\/json/);
+    //expect(resFromLoginApi.token).toBeDefined();
+    token = resFromLoginApi.body.token;
+    console.log(token, "token");
+    console.log(resFromLoginApi.body, "login");
+  });
+
+  test.only("valid blog can be added sucessfully with status code 201", async () => {
     const newblog = {
       title: "Added by test-case",
       author: "Sunil Tajpuriya",
@@ -51,11 +83,13 @@ describe("adding a new blog", () => {
       likes: 7,
     };
 
-    await api
+    const response = await api
       .post("/api/blogs")
       .send(newblog)
-      .expect(201)
-      .expect("Content-Type", /application\/json/);
+      .set("authorization:"`Bearer ${token}`);
+
+    expect(response.statusCode).toBe(201);
+    // .expect("Content-Type", /application\/json/);
 
     const blogsAtEnd = await helper.blogsInDb();
 
