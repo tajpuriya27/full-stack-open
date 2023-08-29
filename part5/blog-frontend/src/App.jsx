@@ -54,11 +54,12 @@ const App = () => {
     }
   };
 
-  const addBlog = (e) => {
+  const addBlog = async (e) => {
     e.preventDefault();
-    const reponse = blogService.create(newBlog);
-    setBlogs(blogs.concat(reponse));
     try {
+      const response = await blogService.create(newBlog);
+      // setBlogs(blogs.concat(response));
+      console.log(response);
     } catch (error) {
       setErrMessage(err.response.data.error);
       if (err.response.data.error === "token expired") {
@@ -108,7 +109,7 @@ const App = () => {
 
   const blogForm = () => (
     <form onSubmit={addBlog}>
-      <label htmlFor="">Title: </label>
+      <label htmlFor="title">Title: </label>
       <input
         value={newBlog.title}
         name="title"
@@ -116,7 +117,7 @@ const App = () => {
         placeholder="title..."
       />
       <br />
-      <label htmlFor="">Author: </label>
+      <label htmlFor="author">Author: </label>
       <input
         value={newBlog.author}
         name="author"
@@ -124,7 +125,7 @@ const App = () => {
         placeholder="Author..."
       />
       <br />
-      <label htmlFor="">URL: </label>
+      <label htmlFor="url">URL: </label>
       <input
         value={newBlog.url}
         name="url"

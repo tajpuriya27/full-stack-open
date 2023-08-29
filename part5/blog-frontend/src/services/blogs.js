@@ -8,8 +8,11 @@ const getAll = async () => {
   return response.data;
 };
 
-const create = async (title) => {
-  const response = await axios.post(baseUrl, title);
+const create = async (newBlog) => {
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await axios.post(baseUrl, newBlog, config);
   return response.data;
 };
 
