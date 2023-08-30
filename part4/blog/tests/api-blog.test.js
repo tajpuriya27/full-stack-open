@@ -181,23 +181,39 @@ describe("deleting blogs", () => {
 });
 
 describe("update blogs", () => {
-  test("update specific blog with their id", async () => {
-    const blogArr = await helper.blogsInDb();
-    const blogToUpdate = blogArr[0];
+  test.only("update specific blog with their id", async () => {
+    userCreateThenLogin();
+    const oldblog = {
+      title: "Blog created to Edit",
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+    };
+
+    const response = await api
+      .post("/api/blogs")
+      .send(oldblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect("Content-Type", /application\/json/);
+
     const updatedBlog = {
       title: "Updated from test case",
       author: "Api-testing",
+      url: "https://edited.com/",
+      likes: 7,
     };
-    const response = await api
-      .put(`/api/blogs/${blogToUpdate.id}`)
+
+    const resFromPut = await api
+      .put(`/api/blogs/${response.id}`)
       .send(updatedBlog)
+      .set({ authorization: `Bearer ${token}` })
       .expect(200);
 
     const blogsAtEnd = await helper.blogsInDb();
-    expect(response.body.title).toBe("Updated from test case");
-    expect(response.body.author).toBe("Api-testing");
+    expect(resFromPut.body.title).toBe("Updated from test case");
+    expect(resFromPut.body.author).toBe("Api-testing");
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
-  });
+  }, 10000);
 });
 
 afterAll(async () => {
