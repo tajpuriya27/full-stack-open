@@ -1,0 +1,45 @@
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "My first blog",
+    "author": "This is my first blog.. lorem ipsum text...",
+    "url":"https://localhost:3003/api/blogs/1",
+    "likes": 99
+}
+
+###
+POST http://localhost:3003/api/blogs
+authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVuYW1lMSIsImlkIjoiNjRlZDQ4NzBlODk0MmMzMGNjOGM0ZDFlIiwiaWF0IjoxNjkzMjg1Nzc4LCJleHAiOjE2OTMyODkzNzh9.ie5inyQXDMtjwnmduKrEDnCU_bCyspDTZtMD9MKlI7Q
+Content-Type: application/json
+
+{
+    "title": "Blog withou like property",
+    "author": "root-user",
+    "url":"https://localhost:3003/api/blogs/1"
+}
+
+###
+GET http://127.0.0.1:3003/api/blogs HTTP/1.1
+
+###
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "name" : "name for test",
+    "username" : "uname2",
+    "password" : "test123"
+}
+
+###
+POST http://localhost:3003/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "uname1",
+    "password" : "test123"
+}
