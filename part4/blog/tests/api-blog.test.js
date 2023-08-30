@@ -3,6 +3,7 @@ const supertest = require("supertest");
 const app = require("../app");
 const api = supertest(app);
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const helper = require("./api-test-helper.js");
 
 beforeEach(async () => {
@@ -42,7 +43,31 @@ describe("unique identifier of blog", () => {
   });
 });
 
+let token;
+const userCreateThenLogin = async () => {
+  await User.deleteMany({});
+
+  const rootTest = {
+    name: "root",
+    username: "root-admin",
+    password: "admin",
+  };
+
+  const resFromUserApi = await api.post("/api/users").send(rootTest);
+
+  const loginCredentials = {
+    username: "root-admin",
+    password: "admin",
+  };
+
+  const resFromLoginApi = await api.post("/api/login").send(loginCredentials);
+
+  token = resFromLoginApi.body.token;
+};
+
 describe("adding a new blog", () => {
+  beforeEach(userCreateThenLogin);
+
   test("valid blog can be added sucessfully with status code 201", async () => {
     const newblog = {
       title: "Added by test-case",
@@ -50,12 +75,15 @@ describe("adding a new blog", () => {
       url: "https://reactpatterns.com/",
       likes: 7,
     };
+    //console.log(resFromLoginApi.body, "login user");
 
-    await api
+    const response = await api
       .post("/api/blogs")
       .send(newblog)
-      .expect(201)
+      .set({ authorization: `Bearer ${token}` })
       .expect("Content-Type", /application\/json/);
+
+    expect(response.statusCode).toBe(201);
 
     const blogsAtEnd = await helper.blogsInDb();
 
@@ -75,6 +103,7 @@ describe("adding a new blog", () => {
     const response = await api
       .post("/api/blogs")
       .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
@@ -89,7 +118,11 @@ describe("adding a new blog", () => {
       likes: 7,
     };
 
-    await api.post("/api/blogs").send(newblog).expect(400);
+    await api
+      .post("/api/blogs")
+      .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
 
@@ -103,7 +136,11 @@ describe("adding a new blog", () => {
       likes: 7,
     };
 
-    await api.post("/api/blogs").send(newblog).expect(400);
+    await api
+      .post("/api/blogs")
+      .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
 
@@ -113,32 +150,67 @@ describe("adding a new blog", () => {
 
 describe("deleting blogs", () => {
   test("delete specific blog with their id", async () => {
-    const blogArr = await helper.blogsInDb();
-    await api.delete(`/api/blogs/${blogArr[0].id}`).expect(204);
+    const newblog = {
+      title: "Blog created to Delete",
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+    };
 
-    const blogsAtEnd = await helper.blogsInDb();
+    const response = await api
+      .post("/api/blogs")
+      .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect("Content-Type", /application\/json/);
 
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+    await api
+      .delete(`/api/blogs/${response.body.id}`)
+      .set({ authorization: `Bearer ${token}` })
+      .expect(204);
+
+    const blogsLen = await helper.blogsInDb();
+
+    expect(blogsLen).toHaveLength(helper.initialBlogs.length);
   });
 });
 
 describe("update blogs", () => {
+  beforeEach(userCreateThenLogin);
+
   test("update specific blog with their id", async () => {
-    const blogArr = await helper.blogsInDb();
-    const blogToUpdate = blogArr[0];
+    const oldblog = {
+      title: "Blog created to Edit",
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+    };
+
+    const response = await api
+      .post("/api/blogs")
+      .send(oldblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect("Content-Type", /application\/json/);
+
+    console.log(response.body, "newblog");
+
     const updatedBlog = {
       title: "Updated from test case",
       author: "Api-testing",
+      url: "https://edited.com/",
+      likes: 7,
     };
-    const response = await api
-      .put(`/api/blogs/${blogToUpdate.id}`)
+
+    const resFromPut = await api
+      .put(`/api/blogs/${response.body.id}`)
       .send(updatedBlog)
+      .set({ authorization: `Bearer ${token}` })
       .expect(200);
 
     const blogsAtEnd = await helper.blogsInDb();
-    expect(response.body.title).toBe("Updated from test case");
-    expect(response.body.author).toBe("Api-testing");
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
+
+    expect(resFromPut.body.title).toBe("Updated from test case");
+    expect(resFromPut.body.author).toBe("Api-testing");
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
   });
 });
 

@@ -15,7 +15,7 @@ blogsRouter.post("/", tokenExtractor, userExtractor, async (req, res, next) => {
     const blog = new Blog({
       title: req.body.title,
       author: req.body.author,
-      url: req.body.author,
+      url: req.body.url,
       likes: req.body.likes || 0,
       user: user.id,
     });
@@ -50,33 +50,30 @@ blogsRouter.delete(
   }
 );
 
-blogsRouter.put("/:id", async (req, res, next) => {
-  const blog = {
-    title: req.body.title,
-    author: req.body.author,
-    url: req.body.url,
-    likes: req.body.likes,
-  };
+blogsRouter.put(
+  "/:id",
+  tokenExtractor,
+  userExtractor,
+  async (req, res, next) => {
+    try {
+      const user = req.user;
+      const blogToEdit = await Blog.findById(req.params.id);
 
-  try {
-    const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
-      new: true,
-    });
-    res.json(updatedBlog);
-  } catch (error) {
-    next(error);
+      if (blogToEdit.user.toString() === user.id.toString()) {
+        const blog = {
+          title: req.body.title,
+          author: req.body.author,
+          url: req.body.url,
+          likes: req.body.likes,
+        };
+        const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
+          new: true,
+        });
+        res.json(updatedBlog);
+      }
+    } catch (error) {
+      next(error);
+    }
   }
-});
-
-// testing purpose only:
-
-// blogsRouter.get("/all", async (req, res, next) => {
-//   try {
-//     await Blog.deleteMany({});
-//     res.status(204).send("deleted all");
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
+);
 module.exports = blogsRouter;
