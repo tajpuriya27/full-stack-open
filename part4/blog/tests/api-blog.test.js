@@ -43,39 +43,38 @@ describe("unique identifier of blog", () => {
   });
 });
 
+let token;
+const userCreateThenLogin = async () => {
+  await User.deleteMany({});
+
+  const rootTest = {
+    name: "root",
+    username: "root-admin",
+    password: "admin",
+  };
+
+  const resFromUserApi = await api.post("/api/users").send(rootTest);
+
+  expect(resFromUserApi.body.username).toBeDefined();
+
+  const loginCredentials = {
+    username: "root-admin",
+    password: "admin",
+  };
+
+  const resFromLoginApi = await api
+    .post("/api/login")
+    .send(loginCredentials)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+  expect(resFromLoginApi.body.token).toBeDefined();
+  token = resFromLoginApi.body.token;
+};
+
 describe("adding a new blog", () => {
-  let token;
-  beforeEach(async () => {
-    await User.deleteMany({});
+  beforeEach(userCreateThenLogin);
 
-    const rootTest = {
-      name: "root",
-      username: "root-admin",
-      password: "admin",
-    };
-
-    const resFromUserApi = await api.post("/api/users").send(rootTest);
-    //   .expect(201)
-    //   .expect("Content-Type", /application\/json/);
-    // expect(resFromUserApi.body.username).toBeDefined();
-
-    console.log("testing from test", resFromUserApi.body);
-
-    const loginCredentials = {
-      username: "root-admin",
-      password: "admin",
-    };
-
-    const resFromLoginApi = await api.post("/api/login").send(loginCredentials);
-    // .expect(200)
-    // .expect("Content-Type", /application\/json/);
-    //expect(resFromLoginApi.token).toBeDefined();
-    token = resFromLoginApi.body.token;
-    console.log(token, "token");
-    console.log(resFromLoginApi.body, "login");
-  });
-
-  test.only("valid blog can be added sucessfully with status code 201", async () => {
+  test("valid blog can be added sucessfully with status code 201", async () => {
     const newblog = {
       title: "Added by test-case",
       author: "Sunil Tajpuriya",
@@ -86,10 +85,10 @@ describe("adding a new blog", () => {
     const response = await api
       .post("/api/blogs")
       .send(newblog)
-      .set("authorization:"`Bearer ${token}`);
+      .set({ authorization: `Bearer ${token}` })
+      .expect("Content-Type", /application\/json/);
 
     expect(response.statusCode).toBe(201);
-    // .expect("Content-Type", /application\/json/);
 
     const blogsAtEnd = await helper.blogsInDb();
 
@@ -109,6 +108,7 @@ describe("adding a new blog", () => {
     const response = await api
       .post("/api/blogs")
       .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
@@ -123,7 +123,11 @@ describe("adding a new blog", () => {
       likes: 7,
     };
 
-    await api.post("/api/blogs").send(newblog).expect(400);
+    await api
+      .post("/api/blogs")
+      .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
 
@@ -137,7 +141,11 @@ describe("adding a new blog", () => {
       likes: 7,
     };
 
-    await api.post("/api/blogs").send(newblog).expect(400);
+    await api
+      .post("/api/blogs")
+      .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect(400);
 
     const blogsAtEnd = await helper.blogsInDb();
 
@@ -146,13 +154,29 @@ describe("adding a new blog", () => {
 });
 
 describe("deleting blogs", () => {
+  userCreateThenLogin();
   test("delete specific blog with their id", async () => {
-    const blogArr = await helper.blogsInDb();
-    await api.delete(`/api/blogs/${blogArr[0].id}`).expect(204);
+    const newblog = {
+      title: "Blog created to Delete",
+      author: "Sunil Tajpuriya",
+      url: "https://reactpatterns.com/",
+      likes: 7,
+    };
 
-    const blogsAtEnd = await helper.blogsInDb();
+    const response = await api
+      .post("/api/blogs")
+      .send(newblog)
+      .set({ authorization: `Bearer ${token}` })
+      .expect("Content-Type", /application\/json/);
 
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1);
+    await api
+      .delete(`/api/blogs/${response.body.id}`)
+      .set({ authorization: `Bearer ${token}` })
+      .expect(204);
+
+    const blogsLen = await helper.blogsInDb();
+
+    expect(blogsLen).toHaveLength(helper.initialBlogs.length);
   });
 });
 
