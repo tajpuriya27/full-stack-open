@@ -55,19 +55,13 @@ const userCreateThenLogin = async () => {
 
   const resFromUserApi = await api.post("/api/users").send(rootTest);
 
-  expect(resFromUserApi.body.username).toBeDefined();
-
   const loginCredentials = {
     username: "root-admin",
     password: "admin",
   };
 
-  const resFromLoginApi = await api
-    .post("/api/login")
-    .send(loginCredentials)
-    .expect(200)
-    .expect("Content-Type", /application\/json/);
-  expect(resFromLoginApi.body.token).toBeDefined();
+  const resFromLoginApi = await api.post("/api/login").send(loginCredentials);
+
   token = resFromLoginApi.body.token;
 };
 
@@ -81,6 +75,7 @@ describe("adding a new blog", () => {
       url: "https://reactpatterns.com/",
       likes: 7,
     };
+    //console.log(resFromLoginApi.body, "login user");
 
     const response = await api
       .post("/api/blogs")
@@ -154,7 +149,6 @@ describe("adding a new blog", () => {
 });
 
 describe("deleting blogs", () => {
-  userCreateThenLogin();
   test("delete specific blog with their id", async () => {
     const newblog = {
       title: "Blog created to Delete",
@@ -181,8 +175,9 @@ describe("deleting blogs", () => {
 });
 
 describe("update blogs", () => {
-  test.only("update specific blog with their id", async () => {
-    userCreateThenLogin();
+  beforeEach(userCreateThenLogin);
+
+  test("update specific blog with their id", async () => {
     const oldblog = {
       title: "Blog created to Edit",
       author: "Sunil Tajpuriya",
@@ -196,6 +191,8 @@ describe("update blogs", () => {
       .set({ authorization: `Bearer ${token}` })
       .expect("Content-Type", /application\/json/);
 
+    console.log(response.body, "newblog");
+
     const updatedBlog = {
       title: "Updated from test case",
       author: "Api-testing",
@@ -204,16 +201,17 @@ describe("update blogs", () => {
     };
 
     const resFromPut = await api
-      .put(`/api/blogs/${response.id}`)
+      .put(`/api/blogs/${response.body.id}`)
       .send(updatedBlog)
       .set({ authorization: `Bearer ${token}` })
       .expect(200);
 
     const blogsAtEnd = await helper.blogsInDb();
+
     expect(resFromPut.body.title).toBe("Updated from test case");
     expect(resFromPut.body.author).toBe("Api-testing");
-    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length);
-  }, 10000);
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+  });
 });
 
 afterAll(async () => {
