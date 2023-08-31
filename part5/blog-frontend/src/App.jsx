@@ -54,6 +54,11 @@ const App = () => {
     }
   };
 
+  const logOut = () => {
+    window.localStorage.removeItem("loggedBlogAppUser");
+    setUser(null);
+  };
+
   const addBlog = async (e) => {
     e.preventDefault();
     try {
@@ -63,8 +68,7 @@ const App = () => {
     } catch (error) {
       setErrMessage(err.response.data.error);
       if (err.response.data.error === "token expired") {
-        window.localStorage.removeItem("loggedBlogAppUser");
-        setUser(null);
+        logOut();
       }
     }
   };
@@ -144,7 +148,10 @@ const App = () => {
       {!user && loginForm()}
       {user && (
         <div>
-          <p>{user.name} logged in</p>
+          <p>
+            {user.name} logged in <button onClick={logOut}>Log out</button>
+          </p>
+
           {blogForm()}
           {blogs.map((blog) => (
             <Blog key={blog.id} blog={blog} />
