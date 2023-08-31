@@ -41,7 +41,6 @@ const App = () => {
       });
 
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
-
       blogService.setToken(user.token);
       setUser(user);
       setUsername("");
@@ -57,17 +56,22 @@ const App = () => {
   const logOut = () => {
     window.localStorage.removeItem("loggedBlogAppUser");
     setUser(null);
+    setNewBlog({ title: "", author: "", url: "" });
   };
 
   const addBlog = async (e) => {
     e.preventDefault();
     try {
+      console.log(newBlog, "new blog from state");
       const response = await blogService.create(newBlog);
-      // setBlogs(blogs.concat(response));
+      setBlogs(blogs.concat(response));
       console.log(response);
     } catch (error) {
-      setErrMessage(err.response.data.error);
-      if (err.response.data.error === "token expired") {
+      setErrMessage(error.response.data.error);
+      setTimeout(() => {
+        setErrMessage(null);
+      }, 5000);
+      if (error.response.data.error === "token expired") {
         logOut();
       }
     }
