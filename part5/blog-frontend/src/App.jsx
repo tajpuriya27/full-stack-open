@@ -123,7 +123,7 @@ const App = () => {
     if (message === null) {
       return null;
     }
-    return type === "errMesage" ? (
+    return type === "errMessage" ? (
       <div className="error">{message}</div>
     ) : (
       <div className="notify">{message}</div>
@@ -141,6 +141,51 @@ const App = () => {
         if (error.response.data.error === "token expired") {
           logOut("token-expired");
         }
+        setErrMessage(null);
+      }, 500);
+    }
+  };
+
+  const delBlog = async (blog) => {
+    try {
+      if (
+        window.confirm(
+          `Do you want to delete a blog, "${blog.title}" by ${blog.author}?`
+        )
+      ) {
+        const response = await blogService.deleteBlog(blog.id);
+        switch (response.status) {
+          case 204: {
+            setNotifyMessage(
+              `A blog, "${blog.title}" by ${blog.author} is deleted!!!`
+            );
+            setTimeout(() => {
+              setNotifyMessage(null);
+            }, 1000);
+            setBlogs(blogs.filter((n) => n.id !== blog.id));
+            break;
+          }
+          case 401: {
+            setErrMessage(
+              `Authentication Error: A blog, "${blog.title}" by ${blog.author} cannot be deleted!!!`
+            );
+            setTimeout(() => {
+              setErrMessage(null);
+            }, 500);
+            break;
+          }
+          default: {
+            setNotifyMessage("unknown Error!!");
+            setTimeout(() => {
+              setNotifyMessage(null);
+            }, 1000);
+            break;
+          }
+        }
+      }
+    } catch (error) {
+      setErrMessage(error.response.data.error);
+      setTimeout(() => {
         setErrMessage(null);
       }, 500);
     }
@@ -191,6 +236,7 @@ const App = () => {
                 blog={blog}
                 updateLikes={() => updateLikes(blog)}
                 blogOwner={user.name}
+                delBlog={() => delBlog(blog)}
               />
             ))}
         </div>
