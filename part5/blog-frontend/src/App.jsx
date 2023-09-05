@@ -130,6 +130,22 @@ const App = () => {
     );
   };
 
+  const updateLikes = async (blogToUpdate) => {
+    blogToUpdate = { ...blogToUpdate, likes: blogToUpdate.likes + 1 };
+    try {
+      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
+      setBlogs(blogs.map((n) => (n.id !== response.id ? n : response)));
+    } catch (error) {
+      setErrMessage(error.response.data.error);
+      setTimeout(() => {
+        if (error.response.data.error === "token expired") {
+          logOut("token-expired");
+        }
+        setErrMessage(null);
+      }, 500);
+    }
+  };
+
   const loginForm = () => (
     <Togglable buttonLabel="Show Login" ref={loginFormRef}>
       <Login
@@ -168,7 +184,12 @@ const App = () => {
 
           {blogForm()}
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateLikes={() => updateLikes(blog)}
+              blogOwner={user.name}
+            />
           ))}
         </div>
       )}
