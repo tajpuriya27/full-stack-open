@@ -12,7 +12,7 @@ const Blog = ({ blog, updateLikes, blogOwner, delBlog }) => {
   const [blogToShow, setBlogToShow] = useState([]);
   if (blogToShow.includes(blog.id)) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className="blog-div">
         <p>
           {blog.title}
           <button
@@ -37,7 +37,7 @@ const Blog = ({ blog, updateLikes, blogOwner, delBlog }) => {
     );
   }
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog-div">
       {blog.title} {blog.author}
       <button onClick={() => setBlogToShow(blogToShow.concat(blog.id))}>
         show
