@@ -43,7 +43,7 @@ test("Likes and Url will be shown when toggled", async () => {
   expect(screen.queryByText("url")).toBeDefined();
 });
 
-test.only("Like button is clickable", async () => {
+test("Like button is clickable", async () => {
   const blog = {
     title: "A test-case",
     author: "Jest Library",
