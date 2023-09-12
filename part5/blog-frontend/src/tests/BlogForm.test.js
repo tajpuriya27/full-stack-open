@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import { render, fireEvent } from "@testing-library/react";
 import BlogForm from "../components/BlogForm";
 
-test.only("test for new blog form", () => {
+test("test for new blog form", () => {
   const addBlog = jest.fn();
 
   const component = render(<BlogForm createBlog={addBlog} />);
