@@ -20,6 +20,7 @@ const asObject = (anecdote) => {
 const initialState = anecdotesAtStart.map(asObject);
 
 const reducer = (state = initialState, action) => {
+  console.log("state from reducer", state);
   switch (action.type) {
     case "UP-VOTE": {
       return state.map((anecdote) =>
@@ -27,6 +28,16 @@ const reducer = (state = initialState, action) => {
           ? { ...anecdote, votes: ++anecdote.votes }
           : anecdote
       );
+    }
+    case "FILTER-ANECDOTE": {
+      // console.log("filter outside");
+      if (action.payload) {
+        // console.log("filter inside");
+        return state.filter((anecdote) =>
+          anecdote.content.toLowerCase().includes(action.payload.toLowerCase())
+        );
+      }
+      return state;
     }
     case "NEW-ANECDOTE": {
       return state.concat(action.payload);
@@ -48,6 +59,13 @@ export const newAnecdoteOf = (content) => {
   return {
     type: "NEW-ANECDOTE",
     payload: asObject(content),
+  };
+};
+
+export const anecdoteFilterFrom = (searchTerm) => {
+  return {
+    type: "FILTER-ANECDOTE",
+    payload: searchTerm,
   };
 };
 
