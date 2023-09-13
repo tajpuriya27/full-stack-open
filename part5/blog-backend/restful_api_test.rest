@@ -11,15 +11,14 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVuYW1lMSIsImlkIjoiNjRlOTE5YjYzZWYwMjE2NjhhZmRmZmQxIiwiaWF0IjoxNjkzMTEwMTY0LCJleHAiOjE2OTMxMTAyMjR9.1-HLQ9NVFBhwfFBp_TSp_vqXDSfRPGrDmgwfS_G-rLM
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRhanB1cml5YTI3IiwiaWQiOiI2NTAxZDAzYzYwZWY3MWZjYTJkNDU0YzIiLCJpYXQiOjE2OTQ2MTgwODcsImV4cCI6MTY5NDYxODE0N30.LJRQV52oiVm8xOMtm45LI7orX6rYndzOmi-lcUbtZyU
 
 Content-Type: application/json
 
 {
-    "title": "Blog withou like property",
-    "author": "root-user",
-    "url":"https://localhost:3003/api/blogs/1",
-    "userId": "64e90dd09724b2bb04f96ee2"
+    "title": "Blog without like property",
+    "author": "admin-user",
+    "url":"https://localhost:3003/api/blogs/1"
 }
 
 ###
@@ -33,9 +32,9 @@ POST http://localhost:3003/api/users HTTP/1.1
 Content-Type: application/json
 
 {
-    "name" : "name for test",
-    "username" : "uname1",
-    "password" : "test123"
+    "name" : "Suneel Tajpuriya",
+    "username" : "tajpuriya27",
+    "password" : "admin"
 }
 
 ###
@@ -43,6 +42,6 @@ POST http://localhost:3003/api/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "username" : "uname1",
-    "password" : "test123"
+    "username" : "tajpuriya27",
+    "password" : "admin"
 }

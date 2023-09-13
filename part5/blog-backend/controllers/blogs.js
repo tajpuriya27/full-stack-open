@@ -12,6 +12,7 @@ blogsRouter.get("/", async (req, res) => {
 blogsRouter.post("/", tokenExtractor, userExtractor, async (req, res, next) => {
   try {
     const user = req.user;
+    console.log(user);
     const blog = new Blog({
       title: req.body.title,
       author: req.body.author,
