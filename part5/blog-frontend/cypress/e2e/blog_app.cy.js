@@ -68,7 +68,7 @@ describe("Blog app", function () {
       cy.contains("1");
     });
 
-    it("User can Like a blog", function () {
+    it("User can delete a blog", function () {
       createBlog();
       cy.contains("show").click();
       cy.get("#remove-blog").click();
