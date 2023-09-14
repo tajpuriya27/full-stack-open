@@ -220,6 +220,7 @@ const App = () => {
                 blog={blog}
                 updateLikes={() => updateLikes(blog)}
                 delBlog={() => delBlog(blog)}
+                loggedInUser={user}
               />
             ))}
         </div>

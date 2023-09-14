@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-const Blog = ({ blog, updateLikes, delBlog }) => {
+const Blog = ({ blog, updateLikes, delBlog, loggedInUser }) => {
+  console.log(blog, "from blog");
+  console.log(loggedInUser, "user");
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -33,9 +35,11 @@ const Blog = ({ blog, updateLikes, delBlog }) => {
           <br />
           {blog.user.name}
           <br />
-          <button onClick={delBlog} id="remove-blog">
-            remove
-          </button>
+          {loggedInUser.username === blog.user.username && (
+            <button onClick={delBlog} id="remove-blog">
+              remove
+            </button>
+          )}
         </p>
       </div>
     );
