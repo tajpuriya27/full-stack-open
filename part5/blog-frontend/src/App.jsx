@@ -20,10 +20,9 @@ const App = () => {
   const loginFormRef = useRef();
 
   useEffect(() => {
-    console.log("1 useEffect - executed");
     async function fetchData() {
-      const userBlogs = await userService.getUserBlogs(user);
-      setBlogs(userBlogs.blogs);
+      const allBlogs = await blogService.getAll();
+      setBlogs(allBlogs);
     }
     user ? fetchData() : null;
   }, [user]);
@@ -52,7 +51,7 @@ const App = () => {
         password,
       });
 
-      let tokenExpirationTime = 1000 * 60;
+      let tokenExpirationTime = 1000 * 60 * 5;
       let tokenExpiry = Date.now() + tokenExpirationTime;
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       window.localStorage.setItem("tokenExpiry", tokenExpiry);
@@ -220,7 +219,6 @@ const App = () => {
                 key={blog.id}
                 blog={blog}
                 updateLikes={() => updateLikes(blog)}
-                blogOwner={user.name}
                 delBlog={() => delBlog(blog)}
               />
             ))}
