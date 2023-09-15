@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 const Blog = ({ blog, updateLikes, delBlog, loggedInUser }) => {
-  console.log(blog, "from blog");
-  console.log(loggedInUser, "user");
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -27,7 +25,7 @@ const Blog = ({ blog, updateLikes, delBlog, loggedInUser }) => {
           URL: {blog.url}
           <br />
           Likes: {blog.likes}{" "}
-          <button onClick={updateLikes} id="like-blog">
+          <button onClick={updateLikes} id="like-blog" className="like-btn">
             Like
           </button>
           <br />
@@ -47,7 +45,10 @@ const Blog = ({ blog, updateLikes, delBlog, loggedInUser }) => {
   return (
     <div style={blogStyle} className="blog-div">
       {blog.title} {blog.author}
-      <button onClick={() => setBlogToShow(blogToShow.concat(blog.id))}>
+      <button
+        onClick={() => setBlogToShow(blogToShow.concat(blog.id))}
+        className="show-btn"
+      >
         show
       </button>
     </div>

@@ -5,7 +5,6 @@ import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Toggable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-import userService from "./services/user";
 import "./main.css";
 
 const App = () => {
