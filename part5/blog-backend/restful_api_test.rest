@@ -1,0 +1,47 @@
+POST http://localhost:3003/api/blogs HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "My first blog",
+    "author": "This is my first blog.. lorem ipsum text...",
+    "url":"https://localhost:3003/api/blogs/1",
+    "likes": 99
+}
+
+###
+POST http://localhost:3003/api/blogs
+
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRhanB1cml5YTI3IiwiaWQiOiI2NTAxZDAzYzYwZWY3MWZjYTJkNDU0YzIiLCJpYXQiOjE2OTQ2MTgwODcsImV4cCI6MTY5NDYxODE0N30.LJRQV52oiVm8xOMtm45LI7orX6rYndzOmi-lcUbtZyU
+
+Content-Type: application/json
+
+{
+    "title": "Blog without like property",
+    "author": "admin-user",
+    "url":"https://localhost:3003/api/blogs/1"
+}
+
+###
+GET http://127.0.0.1:3003/api/blogs HTTP/1.1
+
+###
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "name" : "Mahabir Pun",
+    "username" : "Mahabir_",
+    "password" : "admin"
+}
+
+###
+POST http://localhost:3003/api/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username" : "tajpuriya27",
+    "password" : "admin"
+}
