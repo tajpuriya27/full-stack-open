@@ -6,6 +6,7 @@ import AnecdoteFilter from "./components/AnecdoteFilter";
 import Notification from "./components/Notification";
 import { setAnecdotes } from "./reducers/anecdoteReducer";
 import { getAnecdotes } from "./services/anecdotes";
+import { NotificationContextProvider } from "./NotificationContex";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -16,8 +17,6 @@ const App = () => {
     retry: 5,
     refetchOnWindowFocus: false,
   });
-
-  console.log(JSON.parse(JSON.stringify(result)));
 
   if (result.isLoading) {
     return <div>loading data...</div>;
@@ -31,13 +30,13 @@ const App = () => {
   dispatch(setAnecdotes(anecdotes));
 
   return (
-    <div>
+    <NotificationContextProvider>
       <h2>Anecdotes</h2>
       <Notification />
       <AnecdoteFilter />
       <AnecdoteList />
       <AnecdoteForm />
-    </div>
+    </NotificationContextProvider>
   );
 };
 
