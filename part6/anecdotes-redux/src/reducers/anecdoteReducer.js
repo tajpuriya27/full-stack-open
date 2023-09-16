@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { upVoteAnecdote } from "../services/anecdotes";
 
 const anecdoteReducer = createSlice({
   name: "anecdotes",
@@ -20,13 +19,6 @@ const anecdoteReducer = createSlice({
     },
   },
 });
-
-export const voteAnecdote = (anecdoteToUpdate) => {
-  return async (dispatch) => {
-    const response = await upVoteAnecdote(anecdoteToUpdate);
-    dispatch(upVote(response));
-  };
-};
 
 export const { upVote, appendAnecdote, setAnecdotes } = anecdoteReducer.actions;
 export default anecdoteReducer.reducer;

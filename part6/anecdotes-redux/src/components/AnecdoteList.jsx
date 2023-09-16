@@ -1,16 +1,30 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
-import { voteAnecdote } from "../reducers/anecdoteReducer";
 import { notifyTimeout } from "../reducers/notifyReducer";
+import { upVoteAnecdote } from "../services/anecdotes";
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdote);
   const searchTerm = useSelector((state) => state.filter);
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
+  const voteAnecdoteMutation = useMutation(upVoteAnecdote, {
+    onSuccess: (newAnecdote) => {
+      const returnAnecdotes = queryClient.getQueryData(["anecdotes"]);
+      queryClient.setQueryData(
+        ["anecdotes"],
+        returnAnecdotes.map((anecdote) =>
+          anecdote.id === newAnecdote.id ? newAnecdote : anecdote
+        )
+      );
+    },
+  });
 
   const vote = (anecdote) => {
     const { content } = anecdote;
     const anecdoteToUpdate = { ...anecdote, votes: anecdote.votes + 1 };
-    dispatch(voteAnecdote(anecdoteToUpdate));
+    voteAnecdoteMutation.mutate(anecdoteToUpdate);
     dispatch(notifyTimeout(`you voted '${content}'`, 1));
   };
 

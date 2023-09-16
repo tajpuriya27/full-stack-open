@@ -17,6 +17,8 @@ const App = () => {
     refetchOnWindowFocus: false,
   });
 
+  console.log(JSON.parse(JSON.stringify(result)));
+
   if (result.isLoading) {
     return <div>loading data...</div>;
   }

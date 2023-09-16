@@ -7,7 +7,7 @@
     },
     {
       "content": "Adding manpower to a late software project makes it later!",
-      "votes": 0,
+      "votes": 2,
       "id": 2
     },
     {
@@ -17,38 +17,13 @@
     },
     {
       "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-      "votes": 1,
+      "votes": 5,
       "id": 4
     },
     {
-      "content": "hello",
-      "votes": 0,
+      "content": "Rock-paper-scissor",
+      "votes": 7,
       "id": 5
-    },
-    {
-      "content": "Rock-paper-scissor",
-      "votes": 1,
-      "id": 6
-    },
-    {
-      "content": "Memorizing code is a Myth!!",
-      "votes": 0,
-      "id": 7
-    },
-    {
-      "content": "1. Memorizing code is a Myth!!",
-      "votes": 0,
-      "id": 8
-    },
-    {
-      "content": "1. Memorizing code is a Myth!!",
-      "votes": 0,
-      "id": 9
-    },
-    {
-      "content": "Rock-paper-scissor",
-      "votes": 1,
-      "id": 10
     }
   ]
 }
