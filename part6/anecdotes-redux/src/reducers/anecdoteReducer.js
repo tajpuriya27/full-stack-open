@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createAnecdote, upVoteAnecdote } from "../services/anecdotes";
+import { upVoteAnecdote } from "../services/anecdotes";
 
 const anecdoteReducer = createSlice({
   name: "anecdotes",
@@ -20,13 +20,6 @@ const anecdoteReducer = createSlice({
     },
   },
 });
-
-export const addAnecdote = (anecdoteToAdd) => {
-  return async (dispatch) => {
-    const addedAnecdote = await createAnecdote(anecdoteToAdd);
-    dispatch(appendAnecdote(addedAnecdote));
-  };
-};
 
 export const voteAnecdote = (anecdoteToUpdate) => {
   return async (dispatch) => {
