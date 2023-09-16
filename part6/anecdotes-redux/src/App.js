@@ -4,7 +4,7 @@ import AnecdoteForm from "./components/AnecdoteForm";
 import AnecdoteList from "./components/AnecdoteList";
 import AnecdoteFilter from "./components/AnecdoteFilter";
 import Notification from "./components/Notification";
-import { getAnecdotes } from "./requests";
+import { getAnecdotes } from "./services/anecdotes";
 import { initializeAnecdote } from "./reducers/anecdoteReducer";
 
 const App = () => {
