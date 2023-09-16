@@ -24,6 +24,11 @@
       "content": "Rock-paper-scissor",
       "votes": 7,
       "id": 5
+    },
+    {
+      "content": "Pick the paper!",
+      "votes": 0,
+      "id": 6
     }
   ]
 }
