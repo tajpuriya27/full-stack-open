@@ -18,6 +18,19 @@ const CreateNew = ({ addNew }) => {
     });
     reDirect("/");
   };
+
+  function resetAll() {
+    const emptyValue = {
+      target: {
+        value: "",
+      },
+    };
+    // content.onChange(emptyValue);
+    content.resetState();
+    author.onChange(emptyValue);
+    info.onChange(emptyValue);
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -34,8 +47,9 @@ const CreateNew = ({ addNew }) => {
           url for more info
           <input name="info" {...info} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
+      <button onClick={resetAll}>reset</button>
     </div>
   );
 };
