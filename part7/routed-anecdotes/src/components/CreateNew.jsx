@@ -25,8 +25,7 @@ const CreateNew = ({ addNew }) => {
         value: "",
       },
     };
-    // content.onChange(emptyValue);
-    content.resetState();
+    content.onChange(emptyValue);
     author.onChange(emptyValue);
     info.onChange(emptyValue);
   }
@@ -34,7 +33,7 @@ const CreateNew = ({ addNew }) => {
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={resetAll}>
         <div>
           content
           <input name="content" {...content} />
@@ -48,8 +47,8 @@ const CreateNew = ({ addNew }) => {
           <input name="info" {...info} />
         </div>
         <button type="submit">create</button>
+        <input type="reset" value="Reset" />
       </form>
-      <button onClick={resetAll}>reset</button>
     </div>
   );
 };
