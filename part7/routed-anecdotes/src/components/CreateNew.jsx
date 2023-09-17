@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateNew = ({ addNew }) => {
+  const reDirect = useNavigate();
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [info, setInfo] = useState("");
@@ -13,6 +15,7 @@ const CreateNew = ({ addNew }) => {
       info,
       votes: 0,
     });
+    reDirect("/");
   };
   return (
     <div>

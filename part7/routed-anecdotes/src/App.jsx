@@ -28,9 +28,20 @@ const App = () => {
 
   const [notification, setNotification] = useState("");
 
+  //**** Understand below console-log and remove before submitting ********/
   const addNew = (anecdote) => {
+    console.log(anecdote, "hehehe");
     anecdote.id = Math.round(Math.random() * 10000);
-    setAnecdotes(anecdotes.concat(anecdote));
+    console.log(anecdote, "hehehe");
+    console.log("Before:", anecdotes);
+    const updatedList = anecdotes.concat(anecdote);
+    console.log("update:", updatedList);
+    setAnecdotes(updatedList);
+    console.log("After:", anecdotes);
+    setNotification(`a new anecdote ${anecdote.content} created!`);
+    setTimeout(() => {
+      setNotification("");
+    }, 1500);
   };
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
@@ -55,6 +66,7 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      {notification}
       <Routes>
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
         <Route path="/about" element={<About />} />
