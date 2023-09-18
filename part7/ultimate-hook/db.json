@@ -1,0 +1,28 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "json-server"
+    },
+    {
+      "content": "New new from frontend",
+      "id": 2
+    },
+    {
+      "content": "Testing Note from frontend",
+      "id": 3
+    }
+  ],
+  "persons": [
+    {
+      "name": "ImpactHub Kathmandu",
+      "number": "01 564372",
+      "id": 1
+    },
+    {
+      "name": "Labim Mall",
+      "number": "01 435672",
+      "id": 2
+    }
+  ]
+}

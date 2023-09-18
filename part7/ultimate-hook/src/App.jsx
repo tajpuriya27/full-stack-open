@@ -18,10 +18,19 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([]);
 
-  // ...
+  useEffect(() => {
+    console.log("UseEffect Block");
+    async function fetchData() {
+      console.log("UseEffect Block >> fetchDataFun");
+      const getResources = await axios.get(baseUrl);
+      setResources(getResources.data);
+    }
+    fetchData();
+  }, []);
 
-  const create = (resource) => {
-    // ...
+  const create = async (resource) => {
+    const response = await axios.post(baseUrl, resource);
+    return response.data;
   };
 
   const service = {
@@ -42,18 +51,22 @@ const App = () => {
   const handleNoteSubmit = (event) => {
     event.preventDefault();
     noteService.create({ content: content.value });
+    event.target.content.value = "";
   };
 
   const handlePersonSubmit = (event) => {
     event.preventDefault();
     personService.create({ name: name.value, number: number.value });
+    event.target.name.value = "";
+    event.target.number.value = "";
   };
 
+  // console.log(notes, "notes right now");
   return (
     <div>
       <h2>notes</h2>
       <form onSubmit={handleNoteSubmit}>
-        <input {...content} />
+        <input name="content" {...content} />
         <button>create</button>
       </form>
       {notes.map((n) => (
@@ -62,8 +75,8 @@ const App = () => {
 
       <h2>persons</h2>
       <form onSubmit={handlePersonSubmit}>
-        name <input {...name} /> <br />
-        number <input {...number} />
+        name <input name="name" {...name} /> <br />
+        number <input name="number" {...number} />
         <button>create</button>
       </form>
       {persons.map((n) => (
