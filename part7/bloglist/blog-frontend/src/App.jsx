@@ -76,11 +76,8 @@ const App = () => {
     window.localStorage.removeItem("tokenExpiry");
     setUser(null);
     reason === "token-expired"
-      ? setNotifyMessage("Token Expired, logged out!!")
-      : setNotifyMessage("User logged out.");
-    setTimeout(() => {
-      setNotifyMessage(null);
-    }, 500);
+      ? dispatch(setNotification("Token Expired, logged out!!", 1500))
+      : dispatch(setNotification("User logged out.", 1500));
   };
 
   const addBlog = async (newBlog) => {
