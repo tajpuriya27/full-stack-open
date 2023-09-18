@@ -2,7 +2,7 @@
   "anecdotes": [
     {
       "content": "If it hurts, do it more often",
-      "votes": 3,
+      "votes": 5,
       "id": 1
     },
     {
@@ -12,7 +12,7 @@
     },
     {
       "content": "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-      "votes": 2,
+      "votes": 4,
       "id": 3
     },
     {
@@ -21,14 +21,19 @@
       "id": 4
     },
     {
-      "content": "Rock-paper-scissor",
-      "votes": 7,
+      "content": "Man of Words not of deeds is like garden full of weeds.",
+      "votes": 8,
       "id": 5
     },
     {
-      "content": "Pick the paper!",
-      "votes": 0,
+      "content": "You don't know, how strong you can be until being strong is only alternative.",
+      "votes": 7,
       "id": 6
+    },
+    {
+      "content": "Journey of thousand miles start with single step.",
+      "votes": 4,
+      "id": 7
     }
   ]
 }
