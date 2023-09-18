@@ -1,19 +1,24 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Blog from "./components/Blog";
 import Login from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Toggable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import { setNotification, setError } from "./reducers/notifyReducer";
 import "./main.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [errMessage, setErrMessage] = useState(null);
-  const [notifyMessage, setNotifyMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+
+  const notifyingMsg = useSelector((state) => state.notify.notification);
+  const errMessage = useSelector((state) => state.notify.err);
+  const dispatch = useDispatch();
 
   const blogFormRef = useRef();
   const loginFormRef = useRef();
@@ -56,19 +61,13 @@ const App = () => {
       window.localStorage.setItem("tokenExpiry", tokenExpiry);
       blogService.setToken(user.token);
       setUser(user);
-      setNotifyMessage(`${user.name} logged In`);
-      setTimeout(() => {
-        setNotifyMessage(null);
-      }, 1000);
+      dispatch(setNotification(`${user.name} logged In`, 1500));
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrMessage("Wrong credentials");
+      dispatch(setError("Wrong credentials", 3000));
       setUsername("");
       setPassword("");
-      setTimeout(() => {
-        setErrMessage(null);
-      }, 3000);
     }
   };
 
@@ -200,8 +199,8 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification
-        type={errMessage ? "errMessage" : "notifyMessage"}
-        message={errMessage || notifyMessage}
+        type={errMessage ? "errMessage" : "notifyingMsg"}
+        message={errMessage || notifyingMsg}
       />
       {!user && loginForm()}
       {user && (
