@@ -19,9 +19,7 @@ const useResource = (baseUrl) => {
   const [resources, setResources] = useState([]);
 
   useEffect(() => {
-    console.log("UseEffect Block");
     async function fetchData() {
-      console.log("UseEffect Block >> fetchDataFun");
       const getResources = await axios.get(baseUrl);
       setResources(getResources.data);
     }
@@ -30,6 +28,7 @@ const useResource = (baseUrl) => {
 
   const create = async (resource) => {
     const response = await axios.post(baseUrl, resource);
+    setResources(resources.concat(response.data));
     return response.data;
   };
 
@@ -47,21 +46,23 @@ const App = () => {
 
   const [notes, noteService] = useResource("http://localhost:3005/notes");
   const [persons, personService] = useResource("http://localhost:3005/persons");
+  const clear = {
+    target: { value: "" },
+  };
 
   const handleNoteSubmit = (event) => {
     event.preventDefault();
     noteService.create({ content: content.value });
-    event.target.content.value = "";
+    content.onChange(clear);
   };
 
   const handlePersonSubmit = (event) => {
     event.preventDefault();
     personService.create({ name: name.value, number: number.value });
-    event.target.name.value = "";
-    event.target.number.value = "";
+    name.onChange(clear);
+    number.onChange(clear);
   };
 
-  // console.log(notes, "notes right now");
   return (
     <div>
       <h2>notes</h2>
