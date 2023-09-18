@@ -34,7 +34,6 @@ const App = () => {
   useEffect(() => {
     const tokenExpiry = window.localStorage.getItem("tokenExpiry");
     if (tokenExpiry && new Date() > tokenExpiry) {
-      console.log("here");
       logOut("token-Expired");
     } else {
       const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
@@ -85,19 +84,18 @@ const App = () => {
     try {
       const response = await blogService.create(newBlog);
       setBlogs(blogs.concat(response));
-      setNotifyMessage(
-        `A new blog, "${response.title}" by ${response.author} added`
+      dispatch(
+        setNotification(
+          `A new blog, "${response.title}" by ${response.author} added`,
+          1500
+        )
       );
-      setTimeout(() => {
-        setNotifyMessage(null);
-      }, 2000);
     } catch (error) {
-      setErrMessage(error.response.data.error);
+      dispatch(setError(error.response.data.error, 3000));
       setTimeout(() => {
         if (error.response.data.error === "token expired") {
           logOut("token-expired");
         }
-        setErrMessage(null);
       }, 500);
     }
   };
@@ -139,38 +137,32 @@ const App = () => {
         const response = await blogService.deleteBlog(blog.id);
         switch (response.status) {
           case 204: {
-            setNotifyMessage(
-              `A blog, "${blog.title}" by ${blog.author} is deleted!!!`
+            dispatch(
+              setNotification(
+                `A blog, "${blog.title}" by ${blog.author} is deleted!!!`,
+                1500
+              )
             );
-            setTimeout(() => {
-              setNotifyMessage(null);
-            }, 1000);
             setBlogs(blogs.filter((n) => n.id !== blog.id));
             break;
           }
           case 401: {
-            setErrMessage(
-              `Authentication Error: A blog, "${blog.title}" by ${blog.author} cannot be deleted!!!`
+            dispatch(
+              setError(
+                `Authentication Error: A blog, "${blog.title}" by ${blog.author} cannot be deleted!!!`,
+                3000
+              )
             );
-            setTimeout(() => {
-              setErrMessage(null);
-            }, 500);
             break;
           }
           default: {
-            setNotifyMessage("unknown Error!!");
-            setTimeout(() => {
-              setNotifyMessage(null);
-            }, 1000);
+            dispatch(setNotification("Unknown Error!!", 1500));
             break;
           }
         }
       }
     } catch (error) {
-      setErrMessage(error.response.data.error);
-      setTimeout(() => {
-        setErrMessage(null);
-      }, 500);
+      dispatch(setError("error.response.data.error", 3000));
     }
   };
 

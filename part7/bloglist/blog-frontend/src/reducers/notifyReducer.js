@@ -7,8 +7,6 @@ const notifyReducer = createSlice({
   initialState,
   reducers: {
     setNotifyMessage(state, action) {
-      console.log(action.payload);
-
       return { state, notification: action.payload };
     },
     setErrMessage(state, action) {
