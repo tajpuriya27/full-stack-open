@@ -18,7 +18,6 @@ import { setUser } from "./reducers/userReducer";
 import "./main.css";
 
 const App = () => {
-  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 

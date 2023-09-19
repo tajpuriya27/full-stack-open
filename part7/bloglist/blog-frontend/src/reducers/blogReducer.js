@@ -13,7 +13,6 @@ const blogReducer = createSlice({
       return state.concat(action.payload);
     },
     updateBlog(state, action) {
-      console.log("updated", action.payload);
       return state.map((n) =>
         n.id !== action.payload.id ? n : action.payload
       );
