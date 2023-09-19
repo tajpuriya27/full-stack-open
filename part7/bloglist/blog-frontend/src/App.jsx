@@ -8,7 +8,12 @@ import Togglable from "./components/Toggable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { setNotification, setError } from "./reducers/notifyReducer";
-import { setBlogs } from "./reducers/blogReducer";
+import {
+  initializeBlogs,
+  createUpdateBlog,
+  updateLikeOfBlog,
+  delBlog,
+} from "./reducers/blogReducer";
 import "./main.css";
 
 const App = () => {
@@ -27,9 +32,7 @@ const App = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const allBlogs = await blogService.getAll();
-      console.log("use", allBlogs);
-      dispatch(setBlogs(allBlogs));
+      dispatch(initializeBlogs());
     }
     user ? fetchData() : null;
   }, [user]);
@@ -85,8 +88,7 @@ const App = () => {
   const addBlog = async (newBlog) => {
     blogFormRef.current.toggleVisibility();
     try {
-      const response = await blogService.create(newBlog);
-      dispatch(setBlogs(blogs.concat(response)));
+      dispatch(createUpdateBlog(newBlog));
       dispatch(
         setNotification(
           `A new blog, "${response.title}" by ${response.author} added`,
@@ -117,10 +119,7 @@ const App = () => {
   const updateLikes = async (blogToUpdate) => {
     blogToUpdate = { ...blogToUpdate, likes: blogToUpdate.likes + 1 };
     try {
-      const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-      dispatch(
-        setBlogs(blogs.map((n) => (n.id !== response.id ? n : response)))
-      );
+      dispatch(updateLikeOfBlog(blogToUpdate));
     } catch (error) {
       setErrMessage(error.response.data.error);
       setTimeout(() => {
@@ -132,39 +131,14 @@ const App = () => {
     }
   };
 
-  const delBlog = async (blog) => {
+  const delBlogFun = async (blog) => {
     try {
       if (
         window.confirm(
           `Do you want to delete a blog, "${blog.title}" by ${blog.author}?`
         )
       ) {
-        const response = await blogService.deleteBlog(blog.id);
-        switch (response.status) {
-          case 204: {
-            dispatch(
-              setNotification(
-                `A blog, "${blog.title}" by ${blog.author} is deleted!!!`,
-                1500
-              )
-            );
-            dispatch(setBlogs(blogs.filter((n) => n.id !== blog.id)));
-            break;
-          }
-          case 401: {
-            dispatch(
-              setError(
-                `Authentication Error: A blog, "${blog.title}" by ${blog.author} cannot be deleted!!!`,
-                3000
-              )
-            );
-            break;
-          }
-          default: {
-            dispatch(setNotification("Unknown Error!!", 1500));
-            break;
-          }
-        }
+        dispatch(delBlog(blog));
       }
     } catch (error) {
       dispatch(setError("error.response.data.error", 3000));
@@ -211,7 +185,7 @@ const App = () => {
                 key={blog.id}
                 blog={blog}
                 updateLikes={() => updateLikes(blog)}
-                delBlog={() => delBlog(blog)}
+                delBlogProp={() => delBlogFun(blog)}
                 loggedInUser={user}
               />
             ))}
