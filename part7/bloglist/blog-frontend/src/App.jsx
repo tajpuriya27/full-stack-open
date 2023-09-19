@@ -8,16 +8,17 @@ import Togglable from "./components/Toggable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { setNotification, setError } from "./reducers/notifyReducer";
+import { setUser } from "./reducers/userReducer";
 import "./main.css";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
 
   const notifyingMsg = useSelector((state) => state.notify.notification);
   const errMessage = useSelector((state) => state.notify.err);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const blogFormRef = useRef();
@@ -39,7 +40,7 @@ const App = () => {
       const loggedUserJSON = window.localStorage.getItem("loggedBlogAppUser");
       if (loggedUserJSON) {
         const user = JSON.parse(loggedUserJSON);
-        setUser(user);
+        dispatch(setUser(user));
         blogService.setToken(user.token);
       }
     }
@@ -59,7 +60,7 @@ const App = () => {
       window.localStorage.setItem("loggedBlogAppUser", JSON.stringify(user));
       window.localStorage.setItem("tokenExpiry", tokenExpiry);
       blogService.setToken(user.token);
-      setUser(user);
+      dispatch(setUser(user));
       dispatch(setNotification(`${user.name} logged In`, 1500));
       setUsername("");
       setPassword("");
@@ -73,7 +74,7 @@ const App = () => {
   const logOut = (reason) => {
     window.localStorage.removeItem("loggedBlogAppUser");
     window.localStorage.removeItem("tokenExpiry");
-    setUser(null);
+    dispatch(setUser(null));
     reason === "token-expired"
       ? dispatch(setNotification("Token Expired, logged out!!", 1500))
       : dispatch(setNotification("User logged out.", 1500));
