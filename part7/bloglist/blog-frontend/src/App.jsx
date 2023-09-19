@@ -8,16 +8,18 @@ import Togglable from "./components/Toggable";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { setNotification, setError } from "./reducers/notifyReducer";
+import { setBlogs } from "./reducers/blogReducer";
 import "./main.css";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
   const notifyingMsg = useSelector((state) => state.notify.notification);
   const errMessage = useSelector((state) => state.notify.err);
+  const blogs = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
   const blogFormRef = useRef();
@@ -26,7 +28,8 @@ const App = () => {
   useEffect(() => {
     async function fetchData() {
       const allBlogs = await blogService.getAll();
-      setBlogs(allBlogs);
+      console.log("use", allBlogs);
+      dispatch(setBlogs(allBlogs));
     }
     user ? fetchData() : null;
   }, [user]);
@@ -83,7 +86,7 @@ const App = () => {
     blogFormRef.current.toggleVisibility();
     try {
       const response = await blogService.create(newBlog);
-      setBlogs(blogs.concat(response));
+      dispatch(setBlogs(blogs.concat(response)));
       dispatch(
         setNotification(
           `A new blog, "${response.title}" by ${response.author} added`,
@@ -115,7 +118,9 @@ const App = () => {
     blogToUpdate = { ...blogToUpdate, likes: blogToUpdate.likes + 1 };
     try {
       const response = await blogService.update(blogToUpdate.id, blogToUpdate);
-      setBlogs(blogs.map((n) => (n.id !== response.id ? n : response)));
+      dispatch(
+        setBlogs(blogs.map((n) => (n.id !== response.id ? n : response)))
+      );
     } catch (error) {
       setErrMessage(error.response.data.error);
       setTimeout(() => {
@@ -143,7 +148,7 @@ const App = () => {
                 1500
               )
             );
-            setBlogs(blogs.filter((n) => n.id !== blog.id));
+            dispatch(setBlogs(blogs.filter((n) => n.id !== blog.id)));
             break;
           }
           case 401: {
@@ -199,7 +204,7 @@ const App = () => {
           </p>
 
           {blogForm()}
-          {blogs
+          {[...blogs]
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
