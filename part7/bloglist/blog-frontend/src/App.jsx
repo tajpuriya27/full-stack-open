@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Link, Navigate, useMatch } from "react-router-dom";
 
 import Blog from "./components/Blog";
 import Login from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Toggable";
 import Users from "./components/Users";
+import IndividualUser from "./components/IndividualUser";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { setNotification, setError } from "./reducers/notifyReducer";
@@ -27,6 +28,8 @@ const App = () => {
   const errMessage = useSelector((state) => state.notify.err);
   const blogs = useSelector((state) => state.blogs);
   const user = useSelector((state) => state.logedUser);
+  const users = useSelector((state) => state.users);
+
   const dispatch = useDispatch();
 
   const blogFormRef = useRef();
@@ -165,6 +168,10 @@ const App = () => {
     </Togglable>
   );
 
+  const match = useMatch("/user/:id");
+  console.log("After Match", users);
+  const userOne = match ? users.find((n) => n.id === match.params.id) : null;
+
   return (
     <div>
       <div>{/* <Link to="/users">user</Link> */}</div>
@@ -175,11 +182,11 @@ const App = () => {
       />
 
       <Routes>
-        {/* <Route
-          path="/"
-          element={user ? <Users /> : <Navigate replace to="/" />}
-        /> */}
-        <Route path="/users" element={<Users />} />
+        <Route path="/user" element={<Users />} />
+        <Route
+          path="/user/:id"
+          element={<IndividualUser userOne={userOne} />}
+        />
       </Routes>
 
       {!user && loginForm()}
