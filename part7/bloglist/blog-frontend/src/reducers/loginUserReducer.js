@@ -16,7 +16,7 @@ export const { setUser } = loginUserReducer.actions;
 export const initializeUsers = () => {
   return async (dispatch) => {
     const allUsers = await userService.getAllUser();
-    dispatch(setUser);
+    dispatch(setUser(allUsers));
   };
 };
 
