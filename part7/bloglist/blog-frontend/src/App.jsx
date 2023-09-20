@@ -17,6 +17,7 @@ import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Toggable";
 import Users from "./components/Users";
 import IndividualUser from "./components/IndividualUser";
+import Home from "./components/Home";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { setNotification, setError } from "./reducers/notifyReducer";
@@ -162,10 +163,6 @@ const App = () => {
     reDirect("/");
   };
 
-  const Home = () => {
-    return <h1>Hello this is Home</h1>;
-  };
-
   const loginForm = () => (
     <Togglable buttonLabel="Show Login" ref={loginFormRef}>
       <Login
@@ -179,7 +176,7 @@ const App = () => {
   );
 
   const blogForm = () => (
-    <Togglable buttonLabel="Show Blog Form" ref={blogFormRef}>
+    <Togglable buttonLabel="create new" ref={blogFormRef}>
       <BlogForm createBlog={addBlog} />
     </Togglable>
   );
@@ -192,10 +189,28 @@ const App = () => {
     ? blogs.find((n) => n.id === matchBlogOne.params.id)
     : null;
 
+  const padding = {
+    padding: 5,
+  };
   return (
     <div>
-      <div>{/* <Link to="/users">user</Link> */}</div>
-      <h2>blogs</h2>
+      <div>
+        <Link style={padding} to="/">
+          blogs
+        </Link>
+        <Link style={padding} to="/user">
+          user
+        </Link>
+        {user && (
+          <span style={padding}>
+            {user.name} logged in <button onClick={logOut}>Log out</button>
+          </span>
+        )}
+      </div>
+      <h2>blog App</h2>
+      {!user && loginForm()}
+      {user && blogForm()}
+
       <Notification
         type={errMessage ? "errMessage" : "notifyingMsg"}
         message={errMessage || notifyingMsg}
@@ -220,24 +235,6 @@ const App = () => {
           }
         />
       </Routes>
-
-      {!user && loginForm()}
-      {user && (
-        <div>
-          <p>
-            {user.name} logged in <button onClick={logOut}>Log out</button>
-          </p>
-
-          {blogForm()}
-          {[...blogs]
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Link to={`/blogs/${blog.id}`} key={blog.id}>
-                <Blog blog={blog} />
-              </Link>
-            ))}
-        </div>
-      )}
     </div>
   );
 };
