@@ -7,55 +7,17 @@ const blogStyle = {
   borderWidth: 1,
   marginBottom: 5,
 };
-const Blog = ({ blog, updateLikes, delBlogProp, loggedInUser }) => {
-  const [blogToShow, setBlogToShow] = useState([]);
-  if (blogToShow.includes(blog.id)) {
-    return (
-      <div style={blogStyle} className="blog-div">
-        <p>
-          {blog.title}
-          <button
-            onClick={() =>
-              setBlogToShow(blogToShow.filter((id) => id !== blog.id))
-            }
-          >
-            hide
-          </button>
-          <br />
-          URL: {blog.url}
-          <br />
-          Likes: {blog.likes}{" "}
-          <button onClick={updateLikes} id="like-blog" className="like-btn">
-            Like
-          </button>
-          <br />
-          {blog.author}
-          <br />
-          {blog.user.name}
-          <br />
-          {loggedInUser.username === blog.user.username && (
-            <button onClick={delBlogProp} id="remove-blog">
-              remove
-            </button>
-          )}
-        </p>
-      </div>
-    );
-  }
+const Blog = ({ blog }) => {
   return (
     <div style={blogStyle} className="blog-div">
       {blog.title} {blog.author}
-      <button
-        onClick={() => setBlogToShow(blogToShow.concat(blog.id))}
-        className="show-btn"
-      >
-        show
-      </button>
     </div>
   );
 };
 
-const SingleBlog = ({ blogOne, updateLikes21 }) => {
+const SingleBlog = ({ blogOne, updateLikes, delBlogProp, loggedInUser }) => {
+  console.log("blog sent to singleBlog comp", blogOne);
+  console.log("logged in user", loggedInUser);
   return (
     <div style={blogStyle} className="blog-div">
       <h1>{blogOne.title} </h1>
@@ -63,7 +25,7 @@ const SingleBlog = ({ blogOne, updateLikes21 }) => {
       <p>
         {blogOne.likes} likes
         <button
-          onClick={() => updateLikes21(blogOne)}
+          onClick={() => updateLikes(blogOne)}
           id="like-blog"
           className="like-btn"
         >
@@ -72,6 +34,14 @@ const SingleBlog = ({ blogOne, updateLikes21 }) => {
       </p>
       <br />
       added by {blogOne.author}
+      <br />
+      {blogOne.user.name}
+      <br />
+      {loggedInUser.username === blogOne.user.username && (
+        <button onClick={delBlogProp} id="remove-blog">
+          remove
+        </button>
+      )}
     </div>
   );
 };

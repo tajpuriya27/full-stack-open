@@ -1,6 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route, Link, Navigate, useMatch } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useMatch,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
 
 import Blog from "./components/Blog";
 import { SingleBlog } from "./components/Blog";
@@ -32,6 +40,7 @@ const App = () => {
   const users = useSelector((state) => state.users);
 
   const dispatch = useDispatch();
+  const reDirect = useNavigate();
 
   const blogFormRef = useRef();
   const loginFormRef = useRef();
@@ -89,6 +98,7 @@ const App = () => {
     reason === "token-expired"
       ? dispatch(setNotification("Token Expired, logged out!!", 1500))
       : dispatch(setNotification("User logged out.", 1500));
+    reDirect("/");
   };
 
   const addBlog = async (newBlog) => {
@@ -97,7 +107,7 @@ const App = () => {
       dispatch(createUpdateBlog(newBlog));
       dispatch(
         setNotification(
-          `A new blog, "${response.title}" by ${response.author} added`,
+          `A new blog, "${newBlog.title}" by ${newBlog.author} added`,
           1500
         )
       );
@@ -149,6 +159,11 @@ const App = () => {
     } catch (error) {
       dispatch(setError("error.response.data.error", 3000));
     }
+    reDirect("/");
+  };
+
+  const Home = () => {
+    return <h1>Hello this is Home</h1>;
   };
 
   const loginForm = () => (
@@ -187,15 +202,22 @@ const App = () => {
       />
 
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/user" element={<Users />} />
         <Route
           path="/user/:id"
           element={<IndividualUser userOne={userOne} />}
         />
-        {/* <Route path="/blog" element={<SingleBlog blogOne={blogOne} />} /> */}
         <Route
           path="/blogs/:id"
-          element={<SingleBlog blogOne={blogOne} updateLikes21={updateLikes} />}
+          element={
+            <SingleBlog
+              blogOne={blogOne}
+              updateLikes={updateLikes}
+              delBlogProp={() => delBlogFun(blogOne)}
+              loggedInUser={user}
+            />
+          }
         />
       </Routes>
 
@@ -211,12 +233,7 @@ const App = () => {
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Link to={`/blogs/${blog.id}`} key={blog.id}>
-                <Blog
-                  blog={blog}
-                  updateLikes={() => updateLikes(blog)}
-                  delBlogProp={() => delBlogFun(blog)}
-                  loggedInUser={user}
-                />
+                <Blog blog={blog} />
               </Link>
             ))}
         </div>
