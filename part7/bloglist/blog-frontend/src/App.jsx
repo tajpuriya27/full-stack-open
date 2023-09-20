@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 
 import Blog from "./components/Blog";
 import Login from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Toggable";
+import Users from "./components/Users";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import { setNotification, setError } from "./reducers/notifyReducer";
@@ -14,7 +16,7 @@ import {
   updateLikeOfBlog,
   delBlog,
 } from "./reducers/blogReducer";
-import { setUser } from "./reducers/userReducer";
+import { setUser } from "./reducers/loginUserReducer";
 import "./main.css";
 
 const App = () => {
@@ -24,7 +26,7 @@ const App = () => {
   const notifyingMsg = useSelector((state) => state.notify.notification);
   const errMessage = useSelector((state) => state.notify.err);
   const blogs = useSelector((state) => state.blogs);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.logedUser);
   const dispatch = useDispatch();
 
   const blogFormRef = useRef();
@@ -165,11 +167,21 @@ const App = () => {
 
   return (
     <div>
+      <div>{/* <Link to="/users">user</Link> */}</div>
       <h2>blogs</h2>
       <Notification
         type={errMessage ? "errMessage" : "notifyingMsg"}
         message={errMessage || notifyingMsg}
       />
+
+      <Routes>
+        {/* <Route
+          path="/"
+          element={user ? <Users /> : <Navigate replace to="/" />}
+        /> */}
+        <Route path="/users" element={<Users />} />
+      </Routes>
+
       {!user && loginForm()}
       {user && (
         <div>
