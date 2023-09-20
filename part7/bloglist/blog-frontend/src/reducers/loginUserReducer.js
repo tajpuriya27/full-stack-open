@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import userService from "../services/user";
 
 const loginUserReducer = createSlice({
   name: "loginUser",
@@ -12,12 +11,5 @@ const loginUserReducer = createSlice({
 });
 
 export const { setUser } = loginUserReducer.actions;
-
-export const initializeUsers = () => {
-  return async (dispatch) => {
-    const allUsers = await userService.getAllUser();
-    dispatch(setUser(allUsers));
-  };
-};
 
 export default loginUserReducer.reducer;
