@@ -60,6 +60,7 @@ blogsRouter.put("/:id", async (req, res, next) => {
   };
 
   try {
+    console.log("checking", req.body);
     const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, {
       new: true,
     });

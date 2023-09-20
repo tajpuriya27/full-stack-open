@@ -1,13 +1,13 @@
 import { useState } from "react";
 
+const blogStyle = {
+  paddingTop: 10,
+  paddingLeft: 2,
+  border: "solid",
+  borderWidth: 1,
+  marginBottom: 5,
+};
 const Blog = ({ blog, updateLikes, delBlogProp, loggedInUser }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
   const [blogToShow, setBlogToShow] = useState([]);
   if (blogToShow.includes(blog.id)) {
     return (
@@ -54,5 +54,28 @@ const Blog = ({ blog, updateLikes, delBlogProp, loggedInUser }) => {
     </div>
   );
 };
+
+const SingleBlog = ({ blogOne, updateLikes21 }) => {
+  return (
+    <div style={blogStyle} className="blog-div">
+      <h1>{blogOne.title} </h1>
+      <a href={blogOne.url}></a>
+      <p>
+        {blogOne.likes} likes
+        <button
+          onClick={() => updateLikes21(blogOne)}
+          id="like-blog"
+          className="like-btn"
+        >
+          Like
+        </button>
+      </p>
+      <br />
+      added by {blogOne.author}
+    </div>
+  );
+};
+
+export { SingleBlog };
 
 export default Blog;

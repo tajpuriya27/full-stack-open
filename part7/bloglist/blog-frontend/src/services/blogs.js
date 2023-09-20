@@ -17,6 +17,8 @@ const create = async (newBlog) => {
 };
 
 const update = async (id, blogToUpdate) => {
+  console.log("from services", blogToUpdate);
+  console.log("from services-id", id);
   const response = await axios.put(`${baseUrl}/${id}`, blogToUpdate);
   return response.data;
 };

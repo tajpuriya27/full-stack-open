@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, Navigate, useMatch } from "react-router-dom";
 
 import Blog from "./components/Blog";
+import { SingleBlog } from "./components/Blog";
 import Login from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
 import Togglable from "./components/Toggable";
@@ -169,8 +170,12 @@ const App = () => {
   );
 
   const match = useMatch("/user/:id");
+  const matchBlogOne = useMatch("/blogs/:id");
   console.log("After Match", users);
   const userOne = match ? users.find((n) => n.id === match.params.id) : null;
+  const blogOne = matchBlogOne
+    ? blogs.find((n) => n.id === matchBlogOne.params.id)
+    : null;
 
   return (
     <div>
@@ -187,6 +192,11 @@ const App = () => {
           path="/user/:id"
           element={<IndividualUser userOne={userOne} />}
         />
+        {/* <Route path="/blog" element={<SingleBlog blogOne={blogOne} />} /> */}
+        <Route
+          path="/blogs/:id"
+          element={<SingleBlog blogOne={blogOne} updateLikes21={updateLikes} />}
+        />
       </Routes>
 
       {!user && loginForm()}
@@ -200,13 +210,14 @@ const App = () => {
           {[...blogs]
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                updateLikes={() => updateLikes(blog)}
-                delBlogProp={() => delBlogFun(blog)}
-                loggedInUser={user}
-              />
+              <Link to={`/blogs/${blog.id}`} key={blog.id}>
+                <Blog
+                  blog={blog}
+                  updateLikes={() => updateLikes(blog)}
+                  delBlogProp={() => delBlogFun(blog)}
+                  loggedInUser={user}
+                />
+              </Link>
             ))}
         </div>
       )}

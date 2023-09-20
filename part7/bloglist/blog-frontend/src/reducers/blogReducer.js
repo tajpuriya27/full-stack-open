@@ -41,8 +41,10 @@ export const createUpdateBlog = (newBlog) => {
 };
 
 export const updateLikeOfBlog = (blogToUpdate) => {
+  console.log("blogToupdate", blogToUpdate);
   return async (disptach) => {
     const response = await blogService.update(blogToUpdate.id, blogToUpdate);
+    console.log(response);
     if (response) {
       disptach(updateBlog(blogToUpdate));
     }
