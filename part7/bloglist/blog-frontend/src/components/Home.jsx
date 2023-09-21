@@ -8,18 +8,13 @@ const Home = () => {
 
   return (
     <>
-      {user && (
-        <div>
-          {[...blogs]
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Link to={`/blogs/${blog.id}`} key={blog.id}>
-                <Blog blog={blog} />
-              </Link>
-            ))}
-        </div>
-      )}
-      {!user && <div>Login to view all blogs</div>}
+      {[...blogs]
+        .sort((a, b) => b.likes - a.likes)
+        .map((blog) => (
+          <Link to={`/blogs/${blog.id}`} key={blog.id}>
+            <Blog blog={blog} />
+          </Link>
+        ))}
     </>
   );
 };

@@ -10,7 +10,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 
-import Blog from "./components/Blog";
 import { SingleBlog } from "./components/Blog";
 import Login from "./components/LoginForm";
 import BlogForm from "./components/BlogForm";
@@ -47,10 +46,7 @@ const App = () => {
   const loginFormRef = useRef();
 
   useEffect(() => {
-    async function fetchData() {
-      dispatch(initializeBlogs());
-    }
-    user ? fetchData() : null;
+    dispatch(initializeBlogs());
   }, [user]);
 
   useEffect(() => {
@@ -230,7 +226,6 @@ const App = () => {
               blogOne={blogOne}
               updateLikes={updateLikes}
               delBlogProp={() => delBlogFun(blogOne)}
-              loggedInUser={user}
             />
           }
         />
