@@ -1,11 +1,14 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
+const Comment = require("../models/comment");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const { tokenExtractor, userExtractor } = require("../utils/middleware");
 
 blogsRouter.get("/", async (req, res) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
+  const blogs = await Blog.find({})
+    .populate("user", { username: 1, name: 1 })
+    .populate("comments", { comment: 1 });
   res.json(blogs);
 });
 
@@ -41,14 +44,17 @@ blogsRouter.post(
       console.log(user);
       console.log(req.body);
       const comment = new Comment({
-        comment: req.body.title,
+        comment: req.body.comment,
         user: user.id,
         blog,
       });
 
       const result = await comment.save();
-      // user.blogs = user.blogs.concat(result._id);
-      // await user.save();
+      const blogToComment = await Blog.findById(blog);
+      console.log("returned after saved", result);
+      blogToComment.comments = blogToComment.comments.concat(result._id);
+      await blogToComment.save();
+
       res.status(201).json(result);
     } catch (exception) {
       next(exception);
