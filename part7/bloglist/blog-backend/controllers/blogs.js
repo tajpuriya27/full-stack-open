@@ -41,8 +41,8 @@ blogsRouter.post(
     try {
       const user = req.user;
       const blog = req.params.id;
-      console.log(user);
-      console.log(req.body);
+      // console.log(user);
+      console.log("checking", req.body);
       const comment = new Comment({
         comment: req.body.comment,
         user: user.id,

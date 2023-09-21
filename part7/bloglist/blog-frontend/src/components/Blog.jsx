@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import blogService from "../services/blogs";
 
 const blogStyle = {
   paddingTop: 10,
@@ -16,9 +18,14 @@ const Blog = ({ blog }) => {
 };
 
 const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
-  console.log("blog sent to singleBlog comp", blogOne);
+  const [userInput, setUserInput] = useState("");
   const loggedInUser = useSelector((state) => state.logedUser);
-  console.log("logged in user", loggedInUser);
+
+  const addComment = async (blogToComment) => {
+    console.log("typed:", userInput);
+    const comment = { comment: userInput };
+    await blogService.commentBlog(blogToComment.id, comment);
+  };
 
   if (loggedInUser) {
     return (
@@ -40,6 +47,12 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
         <br />
         {blogOne.user.name}
         <br />
+        <input
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+        />
+        <button onClick={() => addComment(blogOne)}>add comment</button>
         {loggedInUser.username === blogOne.user.username && (
           <button onClick={delBlogProp} id="remove-blog">
             remove
