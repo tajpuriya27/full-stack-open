@@ -30,6 +30,32 @@ blogsRouter.post("/", tokenExtractor, userExtractor, async (req, res, next) => {
   }
 });
 
+blogsRouter.post(
+  "/:id/comments",
+  tokenExtractor,
+  userExtractor,
+  async (req, res, next) => {
+    try {
+      const user = req.user;
+      const blog = req.params.id;
+      console.log(user);
+      console.log(req.body);
+      const comment = new Comment({
+        comment: req.body.title,
+        user: user.id,
+        blog,
+      });
+
+      const result = await comment.save();
+      // user.blogs = user.blogs.concat(result._id);
+      // await user.save();
+      res.status(201).json(result);
+    } catch (exception) {
+      next(exception);
+    }
+  }
+);
+
 blogsRouter.delete(
   "/:id",
   tokenExtractor,

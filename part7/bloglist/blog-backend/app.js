@@ -8,7 +8,6 @@ const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
-const commentsRouter = require("./controllers/comment");
 
 console.log("Connecting to ", config.mongoUrl);
 
@@ -27,7 +26,6 @@ app.use(express.json());
 app.use("/api/login", loginRouter);
 app.use("/api/blogs", blogsRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/comments", commentsRouter);
 
 if (process.env.NODE_ENV === "test") {
   const testingRouter = require("./controllers/testing");
