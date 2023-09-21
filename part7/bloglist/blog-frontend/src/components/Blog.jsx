@@ -9,6 +9,20 @@ const blogStyle = {
   borderWidth: 1,
   marginBottom: 5,
 };
+
+const Comment = ({ blog }) => {
+  return (
+    <>
+      <h3>comments:</h3>
+      <ul>
+        {blog.comments.map((n) => (
+          <li key={n.id}>{n.comment}</li>
+        ))}
+      </ul>
+    </>
+  );
+};
+
 const Blog = ({ blog }) => {
   return (
     <div style={blogStyle} className="blog-div">
@@ -46,6 +60,12 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
         added by {blogOne.author}
         <br />
         {blogOne.user.name}
+        <hr />
+        {loggedInUser.username === blogOne.user.username && (
+          <button onClick={delBlogProp} id="remove-blog">
+            remove
+          </button>
+        )}
         <br />
         <input
           type="text"
@@ -53,11 +73,7 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
           onChange={(e) => setUserInput(e.target.value)}
         />
         <button onClick={() => addComment(blogOne)}>add comment</button>
-        {loggedInUser.username === blogOne.user.username && (
-          <button onClick={delBlogProp} id="remove-blog">
-            remove
-          </button>
-        )}
+        <Comment blog={blogOne} />
       </div>
     );
   }
@@ -72,6 +88,7 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
       added by {blogOne.author}
       <br />
       {blogOne.user.name}
+      <Comment blog={blogOne} />
     </div>
   );
 };
