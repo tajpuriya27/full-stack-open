@@ -35,6 +35,9 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
   const [userInput, setUserInput] = useState("");
   const loggedInUser = useSelector((state) => state.logedUser);
 
+  console.log(loggedInUser, "loged user");
+  console.log("Single Blog", blogOne);
+
   const addComment = async (blogToComment) => {
     console.log("typed:", userInput);
     const comment = { comment: userInput };
@@ -42,26 +45,29 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
   };
 
   if (loggedInUser) {
+    const isOwner = blogOne.user.id === loggedInUser.user.id;
     return (
       <div style={blogStyle} className="blog-div">
         <h1>{blogOne.title} </h1>
         <a href={blogOne.url}></a>
         <p>
           {blogOne.likes} likes
-          <button
-            onClick={() => updateLikes(blogOne)}
-            id="like-blog"
-            className="like-btn"
-          >
-            Like
-          </button>
+          {!isOwner && (
+            <button
+              onClick={() => updateLikes(blogOne)}
+              id="like-blog"
+              className="like-btn"
+            >
+              Like
+            </button>
+          )}
         </p>
         <br />
         added by {blogOne.author}
         <br />
         {blogOne.user.name}
         <hr />
-        {loggedInUser.username === blogOne.user.username && (
+        {isOwner && (
           <button onClick={delBlogProp} id="remove-blog">
             remove
           </button>
