@@ -73,12 +73,16 @@ const SingleBlog = ({ blogOne, updateLikes, delBlogProp }) => {
           </button>
         )}
         <br />
-        <input
-          type="text"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-        />
-        <button onClick={() => addComment(blogOne)}>add comment</button>
+        {!isOwner && (
+          <>
+            <input
+              type="text"
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+            />
+            <button onClick={() => addComment(blogOne)}>add comment</button>
+          </>
+        )}
         <Comment blog={blogOne} />
       </div>
     );
