@@ -7,7 +7,7 @@ const { tokenExtractor, userExtractor } = require("../utils/middleware");
 
 blogsRouter.get("/", async (req, res) => {
   const blogs = await Blog.find({})
-    .populate("user", { username: 1, name: 1 })
+    .populate("user", { id: 1 })
     .populate("comments", { comment: 1 });
   res.json(blogs);
 });
