@@ -6,9 +6,22 @@ const jwt = require("jsonwebtoken");
 const { tokenExtractor, userExtractor } = require("../utils/middleware");
 
 blogsRouter.get("/", async (req, res) => {
-  const blogs = await Blog.find({})
-    .populate("user", { id: 1 })
-    .populate("comments", { comment: 1 });
+  const blogs = await Blog.find()
+    .populate({ path: "user", model: User })
+    .populate({
+      path: "comments",
+      model: Comment,
+      populate: {
+        path: "user",
+        model: User,
+        select: "username -_id",
+      },
+    });
+
+  // const blogs = await Blog.find({})
+  //   .populate("user", "id")
+  //   .populate("comments", { comment: 1 });
+
   res.json(blogs);
 });
 
