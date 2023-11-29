@@ -1,6 +1,10 @@
 [Click here](https://fullstackopen.com/en) to view the main course.  
 [Click here](https://studies.cs.helsinki.fi/stats/courses/fullstackopen) to submit the completed part.
 
+# Certification
+
+![img](https://bit.ly/fullstackopen-sunil)
+
 # Instructions while submitting exercise:
 
 - Each part has its own directory, which contains a directory for each exercise set (like the unicafe exercises in part 1).
