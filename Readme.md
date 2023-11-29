@@ -3,7 +3,7 @@
 
 # Certification
 
-![img](https://bit.ly/fullstackopen-sunil)
+![img](./certificate-fullstack.png)
 
 # Instructions while submitting exercise:
 
