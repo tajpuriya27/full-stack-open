@@ -59,3 +59,71 @@ part2
 ---
 
 ### Part 1
+
+- Simple steps to create react-app is using `create react app` or `vite`.
+- **JSX:** The layout of React components is mostly written using JSX. Although JSX looks like HTML, we are dealing with a way to write JavaScript. Under the hood, JSX returned by React components is compiled into JavaScript. The compilation is handled by [Babel](https://babeljs.io/repl/).
+- **Props:** Passing data to the components.
+- If you are using `eslint` in your IDE, it might pop up warning showing props-validation is required. We can disable this warning by adding key `'react/prop-types': 0` under `rules` key of `.eslintrc` file.
+- **_Do not_** render object within component. Modern react handles rendering of arrays but try avoid rendering arrays too.
+- **Component Helper Function** is a functioned defined within component and is called when the component is rendered and props donot need to be passed as parameter as it can directly accessed them.
+- **Destructing** can be done in the parameter of components.
+- **Re-rendering** in react is done only when `ReactDOM.createRoot(document.getElementById('root')).render(<App/>)` is called again. Therefore, we use react `state hook` for re-rendering.
+- React component that uses react `state hook` are **Stateful Component**. They are responsible for re-rendering.
+- An event-handler must be a function or function reference not a function call.
+
+  ```js
+  const ReactComponent = () => {
+      const [counter, setCounter] = useState(0);
+        const handleClick = () => {
+            setCounter(counter++);
+        }
+      return (
+         <!--Function reference given -->
+          <button onClick= {handleClick}>
+          Click to trigger event-handler
+          </button>
+            <!--Function  given -->
+          <button onClick= {() => {setCounter(counter++)}}>
+          Click to trigger event-handler
+          </button>
+          <!--Function call is not allowed -->
+          <button onClick= {setCounter(counter++)}>
+          Click to trigger event-handler
+          </button>
+      )
+  }
+  ```
+
+- It is forbidden in React to mutate state directly, since it can result in unexpected side effects.
+
+  ```js
+  const [clicks, setClicks] = useState({ left: 0, right: 0 });
+  // use this to update.
+  const handleLeftClick = () => setClicks({ ...clicks, left: clicks.left + 1 });
+  // Avoid  below, might work in some case.
+  const handleLeftClick = () => {
+    clicks.left++;
+    setClicks(clicks);
+  };
+  ```
+
+- Handling arrays:
+
+  ```js
+  const [allClicks, setAll] = useState([]);
+  const handleLeftClick = () => {
+    setAll(allClicks.concat("L"));
+  };
+  ```
+
+- The state update in React happens asynchronously, i.e. not immediately but "at some point" before the component is rendered again.
+
+- **Rules:**
+
+  - Hooks may only be called from the inside of a function body that defines a React component.
+  - Hooks must not be called from _inside of a loop, a conditional expression, or any place that is not a function defining a component_. This must be done to ensure that the hooks are always called in the same order, and if this isn't the case the application will behave erratically.
+  - Donot define component within the component.
+
+- > **Node.js** is a JavaScript runtime environment based on Google's Chrome V8 JavaScript engine and works practically anywhere - from servers to mobile phones.
+
+---
